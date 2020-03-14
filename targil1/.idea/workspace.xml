@@ -2,13 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d0ed073-ec3b-4ff4-b0b3-c5e9d03203ef" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/demos/src/demos/demo.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demos/src/demos/demos.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demos/src/demos/demos.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demos/src/demos/demos.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demos/src/app.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/demos/src/app.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/demos/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/demos/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/demos/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/demos/src/main.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -50,7 +64,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584190216170</updated>
-      <workItem from="1584190217347" duration="888000" />
+      <workItem from="1584190217347" duration="2377000" />
     </task>
     <task id="LOCAL-00001" summary="liran commit">
       <created>1584190979242</created>
@@ -66,7 +80,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584191079673</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="liran commit 2">
+      <created>1584191110284</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1584191110284</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -77,20 +98,25 @@
       <path value="$PROJECT_DIR$/demos" />
     </ignored-roots>
     <MESSAGE value="liran commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="liran commit" />
+    <MESSAGE value="liran commit 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="liran commit 2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="534" y="134" key="CommitChangelistDialog2" timestamp="1584191079601">
+    <state x="808" y="258" key="#com.intellij.ide.util.MemberChooser" timestamp="1584191913103">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state x="534" y="134" key="CommitChangelistDialog2/71.24.1849.1056@71.24.1849.1056" timestamp="1584191079601" />
+    <state x="808" y="258" key="#com.intellij.ide.util.MemberChooser/71.24.1849.1056@71.24.1849.1056" timestamp="1584191913103" />
+    <state x="534" y="134" key="CommitChangelistDialog2" timestamp="1584191110216">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="534" y="134" key="CommitChangelistDialog2/71.24.1849.1056@71.24.1849.1056" timestamp="1584191110216" />
     <state x="489" y="174" key="SettingsEditor" timestamp="1584191074154">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
     <state x="489" y="174" key="SettingsEditor/71.24.1849.1056@71.24.1849.1056" timestamp="1584191074154" />
-    <state x="595" y="264" key="Vcs.Push.Dialog.v2" timestamp="1584191080630">
+    <state x="595" y="264" key="Vcs.Push.Dialog.v2" timestamp="1584191111151">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state x="595" y="264" key="Vcs.Push.Dialog.v2/71.24.1849.1056@71.24.1849.1056" timestamp="1584191080630" />
+    <state x="595" y="264" key="Vcs.Push.Dialog.v2/71.24.1849.1056@71.24.1849.1056" timestamp="1584191111151" />
   </component>
 </project>
