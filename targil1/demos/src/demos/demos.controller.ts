@@ -54,6 +54,7 @@ export class DemosController {
     }
 
     @ApiParam({name:"id",required:true})
+    @ApiBody({ type: DemoEntity })
     @Put(":id")
     async updateDemo(@Param("id") _id,@Body() dto : DemoModel)
     {
@@ -69,6 +70,7 @@ export class DemosController {
     }
 
     @ApiParam({name:"id",required:true})
+    @ApiBody({ type: DemoEntity })
     @Patch(":id")
     async replaceDemo(@Param("id") _id,@Body() dto : DemoModel)
     {
