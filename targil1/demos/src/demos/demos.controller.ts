@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put} from '@nestjs/common';
-import {ApiTags} from "@nestjs/swagger";
+import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags} from "@nestjs/swagger";
 import {DemosService} from "./demos.service";
 import {DemoEntity, DemoModel} from "./demo.model";
 import * as uuid from 'uuid';
@@ -17,6 +17,7 @@ export class DemosController {
         return this.demos;
     }
 
+    @ApiParam({name:"id",required:true})
     @Get(":id")
     async getById(@Param("id") id)
     {
@@ -30,6 +31,11 @@ export class DemosController {
         }
     }
 
+    @ApiBody({ type: DemoEntity })
+    @ApiCreatedResponse({
+        description: 'The demo has been successfully created.',
+        type: DemoEntity,
+    })
     @Post()
     async createDemo(@Body() dto : DemoModel)
     {
@@ -47,6 +53,7 @@ export class DemosController {
         }
     }
 
+    @ApiParam({name:"id",required:true})
     @Put(":id")
     async updateDemo(@Param("id") _id,@Body() dto : DemoModel)
     {
@@ -61,6 +68,7 @@ export class DemosController {
         }
     }
 
+    @ApiParam({name:"id",required:true})
     @Patch(":id")
     async replaceDemo(@Param("id") _id,@Body() dto : DemoModel)
     {
@@ -82,6 +90,7 @@ export class DemosController {
         this.demos = {};
     }
 
+    @ApiParam({name:"id",required:true})
     @Delete(":id")
     async deleteById(@Param("id") _id)
     {
