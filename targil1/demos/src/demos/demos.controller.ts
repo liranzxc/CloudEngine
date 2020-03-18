@@ -27,7 +27,7 @@ export class DemosController {
         }
         else
         {
-            throw new HttpException('No Found', HttpStatus.BAD_REQUEST);
+            throw new HttpException('Demo Not Found', HttpStatus.NOT_FOUND);
         }
     }
 
@@ -41,9 +41,9 @@ export class DemosController {
     {
         if(dto)
         {
-            const _id = uuid.v4();
-            const demoEntity : DemoEntity = {...{_id: _id},...dto} as DemoEntity;
-            this.demos[_id] = demoEntity;
+            const id = uuid.v4();
+            const demoEntity : DemoEntity = {...{id: id},...dto} as DemoEntity;
+            this.demos[id] = demoEntity;
             return demoEntity;
         }
         else
@@ -56,32 +56,36 @@ export class DemosController {
     @ApiParam({name:"id",required:true})
     @ApiBody({ type: DemoEntity })
     @Put(":id")
-    async updateDemo(@Param("id") _id,@Body() dto : DemoModel)
+    async updateDemo(@Param("id") id,@Body() dto : DemoModel)
     {
-        if(this.demos[_id] && dto)
+        if(this.demos[id] && dto)
         {
-            const demoEntity : DemoEntity = {...{_id : _id},...dto} as DemoEntity;
-            this.demos[_id] = demoEntity;
+            const demoEntity : DemoEntity = {...{id : id},...dto} as DemoEntity;
+            this.demos[id] = demoEntity;
         }
         else
         {
-            throw new HttpException('No Found', HttpStatus.BAD_REQUEST);
+            throw new HttpException('Demo Not Found', HttpStatus.NOT_FOUND);
         }
     }
 
     @ApiParam({name:"id",required:true})
     @ApiBody({ type: DemoEntity })
     @Patch(":id")
-    async replaceDemo(@Param("id") _id,@Body() dto : DemoModel)
+    async replaceDemo(@Param("id") id,@Body() dto : DemoModel)
     {
-        if(this.demos[_id] && dto)
+        if(this.demos[id] && dto)
         {
-            const demoEntity : DemoEntity = {...{_id : _id},...dto} as DemoEntity;
-            this.demos[_id] = demoEntity;
+            const demoEntity : DemoEntity = {...{id : id},...dto} as DemoEntity;
+            this.demos[id] = demoEntity;
+        }
+        else if(dto)
+        {
+            throw new HttpException('Demo Not Found', HttpStatus.NOT_FOUND);
         }
         else
         {
-            throw new HttpException('No Found', HttpStatus.BAD_REQUEST);
+            throw new HttpException('Empty Body', HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -94,15 +98,15 @@ export class DemosController {
 
     @ApiParam({name:"id",required:true})
     @Delete(":id")
-    async deleteById(@Param("id") _id)
+    async deleteById(@Param("id") id)
     {
-        if(this.demos[_id])
+        if(this.demos[id])
         {
-            delete  this.demos[_id];
+            delete  this.demos[id];
         }
         else
         {
-            throw new HttpException('No Found', HttpStatus.BAD_REQUEST);
+            throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
         }
     }
 

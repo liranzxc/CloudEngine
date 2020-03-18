@@ -1,13 +1,16 @@
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 
 export interface DemoModel{
-    name : string;
+    name: string;
+    version: Number;
+    id:string;
 }
 
 export class DemoEntity implements DemoModel{
     @ApiProperty()
     name: string;
-
-    _id:string;
+    version: Number;
+    id:string;
 }
+
 
