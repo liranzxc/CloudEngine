@@ -63,9 +63,14 @@ export class DemosController {
             const demoEntity : DemoEntity = {...{id : id},...dto} as DemoEntity;
             this.demos[id] = demoEntity;
         }
-        else
+
+        else if(dto)
         {
             throw new HttpException('Demo Not Found', HttpStatus.NOT_FOUND);
+        }
+        else
+        {
+            throw new HttpException('Empty Body', HttpStatus.BAD_REQUEST);
         }
     }
 
