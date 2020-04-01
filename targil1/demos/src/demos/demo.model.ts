@@ -16,7 +16,9 @@ export class DemoEntity implements DemoModel{
 }
 
 export class ObjectWithKey {
+    
     key: string;
+    
     object: DemoModel;
 }
 
@@ -24,12 +26,14 @@ export class ObjectWithKey {
 
 export interface demosServiceModel{
     
-    getById(id);
+    getById(id:string);
    
     createDemo(dto : DemoModel);
     
-    updateDemo(id, dto : DemoModel);
+    updateDemo(id:string, dto : DemoModel);
         
-    deleteAll( id);
+    deleteAll( id:string);
+
+    getAll(page:number, size:number)
 
 }

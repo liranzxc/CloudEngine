@@ -1,5 +1,5 @@
-import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put} from '@nestjs/common';
-import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put, Query} from '@nestjs/common';
+import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags, ApiQuery} from "@nestjs/swagger";
 import {DemoEntity, DemoModel} from "./demo.model";
 //import * as uuid from 'uuid';
 import { demosService } from './demos.service';
@@ -19,6 +19,14 @@ export class DemosController {
     async getById(@Param("id") id)
     {
        return this.service.getById(id);
+    }
+
+    @ApiQuery({name:"size",required:false})
+    @ApiQuery({name:"page",required:false})
+    @Get()
+    async getAllDemoes(@Query("size") size:number=10, @Query("page") page:number=0)
+    {
+       return this.service.getAll(page,size);
     }
 
     @ApiBody({ type: DemoEntity })

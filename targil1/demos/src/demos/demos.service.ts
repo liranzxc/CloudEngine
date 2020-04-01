@@ -13,6 +13,11 @@ export class demosService implements demosServiceModel{
         
     }
 
+
+    async getAll(page:number, size:number)
+    {
+        return (await this.http.get<DemoModel>(`${this.url}?size=${size}&page=${page}`).toPromise()).data
+    }
     
     async getById(id)
     {

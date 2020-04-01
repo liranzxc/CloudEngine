@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put, Query} from '@nestjs/common';
-import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags} from "@nestjs/swagger";
+import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags, ApiQuery} from "@nestjs/swagger";
 import { keyObjectPair } from './key.object.pair.model';
 import * as uuid from 'uuid';
 
@@ -25,6 +25,15 @@ export class StorageController {
        
     }
 
+    @ApiQuery({name:"size",required:false})
+    @ApiQuery({name:"page",required:false})
+    @Get()
+    async getAll(@Query("size") size:number=10, @Query("page") page:number=0)
+    {
+        return Object.values(this.storage).slice(page*size,page*size + size);
+       
+    }
+
     @ApiBody({ type: 'genric map' })
     @ApiCreatedResponse({
         description: 'The keyObject has been successfully created.',
@@ -33,7 +42,7 @@ export class StorageController {
     @Post()
     async createDemo(@Body() dto : {})
     {
-        const id = uuid.v4()
+        const id = uuid.v4();
         const keypair : keyObjectPair =  {
             key : id,
             object : dto
