@@ -6,7 +6,7 @@ import { SongService } from './songs.service';
 
 @ApiTags("songs")
 @Controller('songs')
-export class DemosController {
+export class SongsController {
 
 
     constructor(private service:SongService)
