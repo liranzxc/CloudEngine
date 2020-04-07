@@ -32,7 +32,7 @@ export class SongEntity implements SongModel{
 
 
 
-export interface songService{
+export interface SongServiceModel{
     
     getById(id);
    
