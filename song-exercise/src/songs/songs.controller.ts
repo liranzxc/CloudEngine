@@ -1,5 +1,5 @@
-import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put} from '@nestjs/common';
-import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put, Query} from '@nestjs/common';
+import {ApiBody, ApiCreatedResponse, ApiParam, ApiTags, ApiQuery} from "@nestjs/swagger";
 import {SongEntity, SongModel, SongServiceModel} from "./songs.model";
 
 import { SongService } from './songs.service';
@@ -46,5 +46,16 @@ export class SongsController {
         this.service.deleteAll();
     }
 
+    @ApiQuery({name:"size",required:false})
+    @ApiQuery({name:"page",required:false})
+    @ApiQuery({name:"sortBy",required:false})
+    @ApiQuery({name:"sortOrder",required:false})
+    @ApiQuery({name:"criteriaType",required:false})
+    @ApiQuery({name:"criteriaValue",required:false})
+    @Get()
+    async getSongs(@Query("size") size:number=10, @Query("page") page:number=0)
+    {
+       return this.service.getSongs(page,size);
+    }
     // continue - add more
 }

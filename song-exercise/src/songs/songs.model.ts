@@ -34,21 +34,30 @@ export class SongEntity implements SongModel{
 
 export interface SongServiceModel{
     
-    getById(id);
+    getById(id:string);
    
     createSong(song: SongModel);
     
-    updateDemo(id, song: SongModel);
+    updateSong(id:string, song: SongModel);
         
     deleteAll();
 
     getSongs(page:number, size:number, sortAttribute:string, order:string, criteria:string,criteriaValue:object);
-    /* 
-    default sort by songId
-    default sort: asc
-    order : asc/desc
-    criteria : optional
 
-    
-    */
+}
+
+export const OrderTypes = {
+    ASCEND: 'asc',
+    DESCEND: 'desc'
+}
+
+export const SongFields = {
+    SONG_ID: 'songId',
+    NAME: 'name',
+    AUTHORS: 'authors',
+    PUBLISHED_YEAR: "publishedYear",
+    GENRES: "genres",
+    LYRICS: "lyrics",
+    PERFORMER: "performer",
+    PRODUCER: "producer"
 }

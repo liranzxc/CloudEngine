@@ -17,7 +17,7 @@ export class SongService implements SongServiceModel {
     async createSong(song: SongModel) {
         throw new Error("Method not implemented.");
     }
-    async updateDemo(id: any, song: SongModel) {
+    async updateSong(id: any, song: SongModel) {
         throw new Error("Method not implemented.");
     }
     async deleteAll() {
