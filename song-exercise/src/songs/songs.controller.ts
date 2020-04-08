@@ -15,9 +15,16 @@ export class SongsController {
 
     @ApiParam({ name: "id", required: true })
     @Get("/song/:songId")
-    async getById(@Param("songId") id) {
-        // if song does not exist return appropriate error code ( maybe 404 ?)
-        return this.service.getById(id);
+    getById(@Param("songId") id) {
+        
+        try {
+            return this.service.getById(id);
+        }
+        catch(e)
+        {
+            console.log(e);
+            // if song does not exist return appropriate error code ( maybe 404 ?)
+        }
     }
 
     @ApiBody({ type: SongEntity })
@@ -26,7 +33,7 @@ export class SongsController {
         type: SongEntity,
     })
     @Post("/songs")
-    async createSong(@Body() song: SongEntity) {
+    createSong(@Body() song: SongEntity) {
         // Should return 500 if song already exists
         return this.service.createSong(song);
     }
@@ -34,13 +41,13 @@ export class SongsController {
     @ApiParam({ name: "id", required: true })
     @ApiBody({ type: SongEntity })
     @Put("/songs/:songId")
-    async updateSong(@Param("songId") id, @Body() song: SongEntity) {
+    updateSong(@Param("songId") id, @Body() song: SongEntity) {
         // if song does not exist return appropriate error code ( maybe 404 ?)
         this.service.updateSong(id, song);
     }
 
     @Delete("/songs")
-    async deleteAll() {
+    deleteAll() {
         this.service.deleteAll();
     }
 
@@ -51,10 +58,10 @@ export class SongsController {
     @ApiQuery({ name: "criteriaType", required: false })
     @ApiQuery({ name: "criteriaValue", required: false })
     @Get("/songs/search")
-    async getSongs(@Query("size") size: number = 10, @Query("page") page: number = 0, @Query("sortBy")
+    getSongs(@Query("size") size: number = 10, @Query("page") page: number = 0, @Query("sortBy")
     sortBy: string = SongFieldsOrderTypes.SONG_ID, @Query("sortOrder") sortOrder: string = OrderTypes.ASCEND
-        , @Query("criteriaType") criteriaType: string, @Query("criteriaValue") criteriaValue: object) {
-            
+        , @Query("criteriaType") criteriaType: string=null, @Query("criteriaValue") criteriaValue: object=null) {
+
         return this.service.getSongs(page, size, sortBy, sortOrder, criteriaType, criteriaValue);
     }
 }
