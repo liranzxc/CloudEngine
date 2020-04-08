@@ -5,19 +5,17 @@ import { SongModel, SongEntity, SongServiceModel } from "src/songs/songs.model";
 @Injectable()
 export class SongService implements SongServiceModel {
     private songs = {};
-    private url = "http://localhost:3001/storage";
-    
-    constructor (private http:HttpService ){
+
+    constructor(private http: HttpService) {
     }
-    async getById(id)
-    {
+    async getById(id: string) {
         throw new Error("Method not implemented.");
     }
 
     async createSong(song: SongModel) {
         throw new Error("Method not implemented.");
     }
-    async updateSong(id: any, song: SongModel) {
+    async updateSong(id: string, song: SongModel) {
         throw new Error("Method not implemented.");
     }
     async deleteAll() {
@@ -27,7 +25,7 @@ export class SongService implements SongServiceModel {
         throw new Error("Method not implemented.");
     }
 
-    
+
 
 
 

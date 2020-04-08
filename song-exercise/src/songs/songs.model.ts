@@ -1,48 +1,48 @@
-import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
-export interface SongModel{
+export interface SongModel {
     songId: string;
     name: string;
-    authors:object[];
-    publishedYear:number;
-    genres:string[];
-    lyrics:string;
-    performer:string;
-    producer:string;
+    authors: object[];
+    publishedYear: number;
+    genres: string[];
+    lyrics: string;
+    performer: string;
+    producer: string;
 }
 
-export class SongEntity implements SongModel{
+export class SongEntity implements SongModel {
     @ApiProperty()
     songId: string;
     @ApiProperty()
     name: string;
     @ApiProperty()
-    authors:object[];
+    authors: object[];
     @ApiProperty()
-    publishedYear:number;
+    publishedYear: number;
     @ApiProperty()
-    genres:string[];
+    genres: string[];
     @ApiProperty()
-    lyrics:string;
+    lyrics: string;
     @ApiProperty()
-    performer:string;
+    performer: string;
     @ApiProperty()
-    producer:string;
+    producer: string;
 }
 
 
 
-export interface SongServiceModel{
-    
-    getById(id:string);
-   
+export interface SongServiceModel {
+
+    getById(id: string);
+
     createSong(song: SongModel);
-    
-    updateSong(id:string, song: SongModel);
-        
+
+    updateSong(id: string, song: SongModel);
+
     deleteAll();
 
-    getSongs(page:number, size:number, sortAttribute:string, order:string, criteria:string,criteriaValue:object);
+    getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: object);
 
 }
 
@@ -60,4 +60,15 @@ export const SongFields = {
     LYRICS: "lyrics",
     PERFORMER: "performer",
     PRODUCER: "producer"
+}
+
+export const SongFieldsOrderTypes = {
+    SONG_ID: 'bySongId',
+    NAME: 'byName',
+    AUTHORS: 'byAuthors',
+    PUBLISHED_YEAR: "byPublishedYear",
+    GENRES: "byGenres",
+    LYRICS: "byLyrics",
+    PERFORMER: "byPerformer",
+    PRODUCER: "byProducer"
 }

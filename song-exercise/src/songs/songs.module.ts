@@ -1,11 +1,11 @@
 import { Module, HttpModule } from '@nestjs/common';
-import {SongsController} from "./songs.controller";
+import { SongsController } from "./songs.controller";
 import { SongService } from './songs.service';
 
 @Module({
-    imports:[HttpModule],
-    controllers : [SongsController],
-    providers:[SongService],
-    exports:[SongService]
+    imports: [HttpModule],
+    controllers: [SongsController],
+    providers: [SongService],
+    exports: [SongService]
 })
-export class SongsModule {}
+export class SongsModule { }
