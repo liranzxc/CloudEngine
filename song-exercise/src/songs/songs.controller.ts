@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiParam, ApiTags, ApiQuery } from "@nestjs/swagger";
-import { SongEntity, SongModel, SongServiceModel, OrderTypes, SongFields, SongFieldsOrderTypes } from "./songs.model";
+import { SongEntity, SongModel, SongServiceModel, OrderTypes, SongFields, SongFieldsCriteriaTypes } from "./songs.model";
 
 import { SongService } from './songs.service';
 
@@ -13,9 +13,9 @@ export class SongsController {
 
     }
 
-    @ApiParam({ name: "id", required: true })
+    @ApiParam({ name: "songId", required: true })
     @Get("/song/:songId")
-    getById(@Param("songId") id) {
+    async getById(@Param("songId") id) {
         
         try {
             return this.service.getById(id);
@@ -23,7 +23,8 @@ export class SongsController {
         catch(e)
         {
             console.log(e);
-            // if song does not exist return appropriate error code ( maybe 404 ?)
+            throw e          
+            // should throw 404 if non-existent  
         }
     }
 
@@ -33,21 +34,28 @@ export class SongsController {
         type: SongEntity,
     })
     @Post("/songs")
-    createSong(@Body() song: SongEntity) {
+    async createSong(@Body() song: SongEntity) {
         // Should return 500 if song already exists
+        try {
         return this.service.createSong(song);
+        }
+        catch(e)
+        {
+            console.log(e);
+            throw e          
+        }
     }
 
-    @ApiParam({ name: "id", required: true })
+    @ApiParam({ name: "songId", required: true })
     @ApiBody({ type: SongEntity })
     @Put("/songs/:songId")
-    updateSong(@Param("songId") id, @Body() song: SongEntity) {
+    async updateSong(@Param("songId") id, @Body() song: SongEntity) {
         // if song does not exist return appropriate error code ( maybe 404 ?)
         this.service.updateSong(id, song);
     }
 
     @Delete("/songs")
-    deleteAll() {
+    async deleteAll() {
         this.service.deleteAll();
     }
 
@@ -58,10 +66,15 @@ export class SongsController {
     @ApiQuery({ name: "criteriaType", required: false })
     @ApiQuery({ name: "criteriaValue", required: false })
     @Get("/songs/search")
-    getSongs(@Query("size") size: number = 10, @Query("page") page: number = 0, @Query("sortBy")
-    sortBy: string = SongFieldsOrderTypes.SONG_ID, @Query("sortOrder") sortOrder: string = OrderTypes.ASCEND
+    async getSongs(@Query("size") size: number = 10, @Query("page") page: number = 0, @Query("sortBy")
+    sortBy: string = SongFields.SONG_ID, @Query("sortOrder") sortOrder: string = OrderTypes.ASCEND
         , @Query("criteriaType") criteriaType: string=null, @Query("criteriaValue") criteriaValue: object=null) {
 
         return this.service.getSongs(page, size, sortBy, sortOrder, criteriaType, criteriaValue);
+    }
+
+
+    notFound(res) {
+        res.status(404).send("Not found.");
     }
 }

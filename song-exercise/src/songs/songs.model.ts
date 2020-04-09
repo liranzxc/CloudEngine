@@ -34,9 +34,9 @@ export class SongEntity implements SongModel {
 
 export interface SongServiceModel {
 
-    getById(id: string);
+    getById(id: string) : SongModel;
 
-    createSong(song: SongModel);
+    createSong(song: SongModel) : SongModel;
 
     updateSong(id: string, song: SongModel);
 
@@ -62,7 +62,7 @@ export const SongFields = {
     PRODUCER: "producer"
 }
 
-export const SongFieldsOrderTypes = {
+export const SongFieldsCriteriaTypes = {
     SONG_ID: 'bySongId',
     NAME: 'byName',
     AUTHORS: 'byAuthors',
@@ -72,3 +72,4 @@ export const SongFieldsOrderTypes = {
     PERFORMER: "byPerformer",
     PRODUCER: "byProducer"
 }
+
