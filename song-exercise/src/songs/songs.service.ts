@@ -47,7 +47,7 @@ export class SongService implements SongServiceModel {
             if (count <= skip) {
                 continue;
             }
-            if (this.songMatches(this.songs[key], criteria, criteriaValue)) {
+            if (this.songMatchesCriteria(this.songs[key], criteria, criteriaValue)) {
                 arr.push(this.songs[key]);
             }
             if (arr.length >= size) {
@@ -60,12 +60,25 @@ export class SongService implements SongServiceModel {
     }
     sortSongArray(arr: SongModel[], sortAttribute: string, order: string): SongModel[] {
         var retVal = (order == OrderTypes.DESCEND) ? 1 : -1;
-        arr.sort(function (song1, song2) {
+        arr.sort(function (song1 : SongModel, song2 : SongModel) {
             switch (sortAttribute) {
-                case SongFields.SONG_ID:
-                    return song1.songId > song2.songId ? retVal : -retVal;
+                case SongFields.PRODUCER:
+                    return song1.producer > song2.producer ? retVal : -retVal;
+                case SongFields.PERFORMER:
+                    return song1.performer > song2.performer ? retVal : -retVal;
+                case SongFields.NAME:
+                    return song1.name > song2.name ? retVal : -retVal;
                 case SongFields.PUBLISHED_YEAR:
                     return song1.publishedYear > song2.publishedYear ? retVal : -retVal;
+                case SongFields.LYRICS:
+                    return song1.lyrics.length > song2.lyrics.length ? retVal : -retVal;
+                case SongFields.AUTHORS:
+                    // undefined
+                case SongFields.GENRES:
+                    // undefined
+                default:
+                    // SongID is default
+                    return song1.songId > song2.songId ? retVal : -retVal;
                 // TODO continue
             }
             return retVal;
@@ -73,7 +86,7 @@ export class SongService implements SongServiceModel {
         return arr;
     }
 
-    songMatches(song: SongModel, criteria: string, criteriaValue: object): boolean {
+    songMatchesCriteria(song: SongModel, criteria: string, criteriaValue: object): boolean {
         if (criteria == null || criteriaValue == null) {
             return true;
         }
