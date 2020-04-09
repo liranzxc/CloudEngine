@@ -1,5 +1,5 @@
 import { Injectable, HttpService, Inject, HttpException, HttpStatus } from "@nestjs/common";
-import { SongModel, SongEntity, SongServiceModel, SongFieldsCriteriaTypes, SongFields } from "src/songs/songs.model";
+import { SongModel, SongEntity, SongServiceModel, SongFieldsCriteriaTypes, SongFields, OrderTypes } from "src/songs/songs.model";
 import * as uuid from 'uuid/v4';
 
 @Injectable()
@@ -9,10 +9,11 @@ export class SongService implements SongServiceModel {
     constructor(private http: HttpService) {
     }
     getById(id: string): SongModel {
-        if (id in this.songs) {
-            return this.songs[id];
+        if (!(id in this.songs)) {
+            throw new HttpException({ status: HttpStatus.NOT_FOUND, error: "song id " + id + " not found." }, HttpStatus.NOT_FOUND);
         }
-        throw new HttpException({status: HttpStatus.NOT_FOUND, error: "song id " + id + " not found."}, HttpStatus.NOT_FOUND);
+        return this.songs[id];
+
     }
 
     createSong(song: SongModel): SongModel {
@@ -20,7 +21,7 @@ export class SongService implements SongServiceModel {
         // Using the field of songId on purpose instead of generating a new UUID
         const id = song.songId;
         if (id in this.songs) {
-            throw new HttpException({status: HttpStatus.CONFLICT, error: "song id " + id + " already exists."}, HttpStatus.CONFLICT);
+            throw new HttpException({ status: HttpStatus.INTERNAL_SERVER_ERROR, error: "song id " + id + " already exists." }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         this.songs[id] = song;
         return this.songs[id];
@@ -31,33 +32,44 @@ export class SongService implements SongServiceModel {
             this.songs[id] = song;
             return;
         }
-        throw new HttpException({status: HttpStatus.NOT_FOUND, error: "song id " + id + " not be found."}, HttpStatus.NOT_FOUND);
+        throw new HttpException({ status: HttpStatus.NOT_FOUND, error: "song id " + id + " not be found." }, HttpStatus.NOT_FOUND);
     }
     deleteAll() {
         this.songs = {}
     }
     getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: object) {
-        var arr = []
+        var arr: SongModel[] = []
         var count = 0;
+        var skip = page * size
         for (var key in this.songs) {
             // check if the property/key is defined in the object itself, not in parent
             ++count;
-            if (count < (page + 1) * size) {
+            if (count <= skip) {
                 continue;
             }
-            else if (count > (page + 1) * size + size) {
-                break;
-            }
-            if (this.songs.hasOwnProperty(key)) {
-                console.log(key, this.songs[key]);
-            }
-
             if (this.songMatches(this.songs[key], criteria, criteriaValue)) {
                 arr.push(this.songs[key]);
             }
+            if (arr.length >= size) {
+                break;
+            }
         }
-        // sort arr here
+        arr = this.sortSongArray(arr, sortAttribute, order);
 
+        return arr;
+    }
+    sortSongArray(arr: SongModel[], sortAttribute: string, order: string): SongModel[] {
+        var retVal = (order == OrderTypes.DESCEND) ? 1 : -1;
+        arr.sort(function (song1, song2) {
+            switch (sortAttribute) {
+                case SongFields.SONG_ID:
+                    return song1.songId > song2.songId ? retVal : -retVal;
+                case SongFields.PUBLISHED_YEAR:
+                    return song1.publishedYear > song2.publishedYear ? retVal : -retVal;
+                // TODO continue
+            }
+            return retVal;
+        })
         return arr;
     }
 
@@ -70,8 +82,8 @@ export class SongService implements SongServiceModel {
             return true;
         }
         var songVal = Reflect.get(song, field);
-        if(songVal != criteriaValue)
-        {
+        if (songVal != criteriaValue) {
+            // TODO implement by field
             return false;
         }
         return true;
