@@ -1,9 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-
+export interface Author {
+    name: string
+}
 export interface SongModel {
     songId: string;
     name: string;
-    authors: object[];
+    authors: Author[];
     publishedYear: number;
     genres: string[];
     lyrics: string;
@@ -17,7 +19,7 @@ export class SongEntity implements SongModel {
     @ApiProperty()
     name: string;
     @ApiProperty()
-    authors: object[];
+    authors: Author[];
     @ApiProperty()
     publishedYear: number;
     @ApiProperty()
@@ -42,7 +44,7 @@ export interface SongServiceModel {
 
     deleteAll();
 
-    getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: object);
+    getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: string | number);
 
 }
 

@@ -1,12 +1,25 @@
 import { Injectable, HttpService, Inject, HttpException, HttpStatus } from "@nestjs/common";
 import { SongModel, SongEntity, SongServiceModel, SongFieldsCriteriaTypes, SongFields, OrderTypes } from "src/songs/songs.model";
-import * as uuid from 'uuid/v4';
+
+
 
 @Injectable()
 export class SongService implements SongServiceModel {
-    private songs = {};
+    private songs:Map<string, SongModel> = {} as Map<string, SongModel>;
 
     constructor(private http: HttpService) {
+        const arr : number[] = Array.from(new Array(100).keys());
+        
+        arr.map(id => {
+            return {songId: id.toString(),
+                    performer:id.toString(),
+                    producer: id.toString(),
+                    genres: [(id+1).toString(), (id+2).toString()],
+                    authors: [{name: id.toString()}, {name: (id + 1).toString()}],
+                    publishedYear: id*100,
+                    lyrics: id.toString()
+                } as SongModel    
+        }).forEach(song => this.songs[song.songId] = song)
     }
     getById(id: string): SongModel {
         if (!(id in this.songs)) {
@@ -17,49 +30,48 @@ export class SongService implements SongServiceModel {
     }
 
     createSong(song: SongModel): SongModel {
-        //const id = uuid();
-        // Using the field of songId on purpose instead of generating a new UUID
         const id = song.songId;
-        if (id in this.songs) {
+        if (this.songs.hasOwnProperty(id)) {
             throw new HttpException({ status: HttpStatus.INTERNAL_SERVER_ERROR, error: "song id " + id + " already exists." }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         this.songs[id] = song;
         return this.songs[id];
     }
     updateSong(id: string, song: SongModel) {
-        if (id in this.songs) {
-            song.songId = id;
+        if (this.songs.hasOwnProperty(id)) {
+            if(song.songId !== id) {
+                throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "song id " + id + "does not match song." }, HttpStatus.BAD_REQUEST);
+            }
             this.songs[id] = song;
             return;
         }
         throw new HttpException({ status: HttpStatus.NOT_FOUND, error: "song id " + id + " not be found." }, HttpStatus.NOT_FOUND);
     }
     deleteAll() {
-        this.songs = {}
+        this.songs = {} as Map<string, SongModel>
     }
-    getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: object) {
-        var arr: SongModel[] = []
-        var count = 0;
-        var skip = page * size
-        for (var key in this.songs) {
-            // check if the property/key is defined in the object itself, not in parent
-            ++count;
-            if (count <= skip) {
-                continue;
-            }
-            if (this.songMatchesCriteria(this.songs[key], criteria, criteriaValue)) {
-                arr.push(this.songs[key]);
-            }
-            if (arr.length >= size) {
-                break;
-            }
+    getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: string | number) {
+        let arr: SongModel[] = Object.values(this.songs);
+        if(criteria && criteriaValue) {
+            arr = arr.filter((song: SongModel) => {
+                const field = this.criteriaToField(criteria);
+                if(field === SongFields.AUTHORS) {
+                    return song.authors.map(author => author.name).includes(criteriaValue.toString());
+                }
+                else if(field === SongFields.GENRES) {
+                    return song.genres.includes(criteriaValue.toString());
+                }
+                
+                return song[field] == criteriaValue;
+            })
         }
         arr = this.sortSongArray(arr, sortAttribute, order);
-
+        arr = arr.slice(page*size,(page*size) + size);
         return arr;
     }
     sortSongArray(arr: SongModel[], sortAttribute: string, order: string): SongModel[] {
-        var retVal = (order == OrderTypes.DESCEND) ? 1 : -1;
+        var retVal = (order === OrderTypes.DESCEND) ? -1 : 1;
+        // default is ascending order
         arr.sort(function (song1 : SongModel, song2 : SongModel) {
             switch (sortAttribute) {
                 case SongFields.PRODUCER:
@@ -79,27 +91,9 @@ export class SongService implements SongServiceModel {
                 default:
                     // SongID is default
                     return song1.songId > song2.songId ? retVal : -retVal;
-                // TODO continue
             }
-            return retVal;
         })
         return arr;
-    }
-
-    songMatchesCriteria(song: SongModel, criteria: string, criteriaValue: object): boolean {
-        if (criteria == null || criteriaValue == null) {
-            return true;
-        }
-        var field = this.criteriaToField(criteria);
-        if (field == null) {
-            return true;
-        }
-        var songVal = Reflect.get(song, field);
-        if (songVal != criteriaValue) {
-            // TODO implement by field
-            return false;
-        }
-        return true;
     }
 
     criteriaToField(criteria: string): string {

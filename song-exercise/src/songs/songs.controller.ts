@@ -68,7 +68,7 @@ export class SongsController {
     @Get("/songs/search")
     async getSongs(@Query("size") size: number = 10, @Query("page") page: number = 0, @Query("sortBy")
     sortBy: string = SongFields.SONG_ID, @Query("sortOrder") sortOrder: string = OrderTypes.ASCEND
-        , @Query("criteriaType") criteriaType: string=null, @Query("criteriaValue") criteriaValue: object=null) {
+        , @Query("criteriaType") criteriaType: string=undefined, @Query("criteriaValue") criteriaValue: string | number=undefined) {
 
         return this.service.getSongs(page, size, sortBy, sortOrder, criteriaType, criteriaValue);
     }
