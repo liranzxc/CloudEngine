@@ -2,18 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 export interface Author {
     name: string
 }
-export interface SongModel {
-    songId: string;
-    name: string;
-    authors: Author[];
-    publishedYear: number;
-    genres: string[];
-    lyrics: string;
-    performer: string;
-    producer: string;
-}
-
-export class SongEntity implements SongModel {
+export class SongModel {
     @ApiProperty()
     songId: string;
     @ApiProperty()
@@ -31,8 +20,6 @@ export class SongEntity implements SongModel {
     @ApiProperty()
     producer: string;
 }
-
-
 
 export interface SongServiceModel {
 

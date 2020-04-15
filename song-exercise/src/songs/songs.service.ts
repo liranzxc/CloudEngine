@@ -1,5 +1,5 @@
 import { Injectable, HttpService, Inject, HttpException, HttpStatus } from "@nestjs/common";
-import { SongModel, SongEntity, SongServiceModel, SongFieldsCriteriaTypes, SongFields, OrderTypes } from "src/songs/songs.model";
+import { SongModel, SongServiceModel, SongFieldsCriteriaTypes, SongFields, OrderTypes } from "src/songs/songs.model";
 
 
 
@@ -8,18 +8,19 @@ export class SongService implements SongServiceModel {
     private songs:Map<string, SongModel> = {} as Map<string, SongModel>;
 
     constructor(private http: HttpService) {
-        const arr : number[] = Array.from(new Array(100).keys());
+        // Uncomment to create stub entries for testing
+        // const arr : number[] = Array.from(new Array(100).keys());
         
-        arr.map(id => {
-            return {songId: id.toString(),
-                    performer:id.toString(),
-                    producer: id.toString(),
-                    genres: [(id+1).toString(), (id+2).toString()],
-                    authors: [{name: id.toString()}, {name: (id + 1).toString()}],
-                    publishedYear: id*100,
-                    lyrics: id.toString()
-                } as SongModel    
-        }).forEach(song => this.songs[song.songId] = song)
+        // arr.map(id => {
+        //     return {songId: id.toString(),
+        //             performer:id.toString(),
+        //             producer: id.toString(),
+        //             genres: [(id+1) + "", (id+2) + "", "rock"],
+        //             authors: [{name: id.toString()}, {name: (id + 1).toString()}],
+        //             publishedYear: id*100,
+        //             lyrics: id.toString()
+        //         } as SongModel    
+        // }).forEach(song => this.songs[song.songId] = song)
     }
     getById(id: string): SongModel {
         if (!(id in this.songs)) {
@@ -54,19 +55,21 @@ export class SongService implements SongServiceModel {
         let arr: SongModel[] = Object.values(this.songs);
         if(criteria && criteriaValue) {
             arr = arr.filter((song: SongModel) => {
-                const field = this.criteriaToField(criteria);
-                if(field === SongFields.AUTHORS) {
-                    return song.authors.map(author => author.name).includes(criteriaValue.toString());
+               
+                if(criteria == SongFields.AUTHORS) {
+                    return song.authors.map(author => author.name).includes(String(criteriaValue));
                 }
-                else if(field === SongFields.GENRES) {
-                    return song.genres.includes(criteriaValue.toString());
+                else if(criteria == SongFields.GENRES) {
+                    return song.genres.includes(String(criteriaValue));
                 }
-                
-                return song[field] == criteriaValue;
+                else if(criteria == SongFields.LYRICS) {
+                    return song.lyrics.includes(String(criteriaValue));
+                }
+                return song[criteria] == criteriaValue;
             })
         }
         arr = this.sortSongArray(arr, sortAttribute, order);
-        arr = arr.slice(page*size,(page*size) + size);
+        arr = arr.slice(page*size,(page*size + size));
         return arr;
     }
     sortSongArray(arr: SongModel[], sortAttribute: string, order: string): SongModel[] {
