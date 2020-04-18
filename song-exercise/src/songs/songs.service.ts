@@ -9,18 +9,19 @@ export class SongService implements SongServiceModel {
 
     constructor(private http: HttpService) {
         // Uncomment to create stub entries for testing
-        // const arr : number[] = Array.from(new Array(100).keys());
+         const arr : number[] = Array.from(new Array(100).keys());
         
-        // arr.map(id => {
-        //     return {songId: id.toString(),
-        //             performer:id.toString(),
-        //             producer: id.toString(),
-        //             genres: [(id+1) + "", (id+2) + "", "rock"],
-        //             authors: [{name: id.toString()}, {name: (id + 1).toString()}],
-        //             publishedYear: id*100,
-        //             lyrics: id.toString()
-        //         } as SongModel    
-        // }).forEach(song => this.songs[song.songId] = song)
+        arr.map(id => {
+            return {songId: id.toString(),
+                    name: id.toString(),
+                    performer:id.toString(),
+                    producer: id.toString(),
+                    genres: [(id+1) + "", (id+2) + "", "rock"],
+                    authors: [{name: id.toString()}, {name: (id + 1).toString()}],
+                    publishedYear: id*100,
+                    lyrics: id.toString()
+                } as SongModel    
+        }).forEach(song => this.songs[song.songId] = song)
     }
     getById(id: string): SongModel {
         if (!(id in this.songs)) {
@@ -53,19 +54,20 @@ export class SongService implements SongServiceModel {
     }
     getSongs(page: number, size: number, sortAttribute: string, order: string, criteria: string, criteriaValue: string | number) {
         let arr: SongModel[] = Object.values(this.songs);
+        const field = this.criteriaToField(criteria);
         if(criteria && criteriaValue) {
             arr = arr.filter((song: SongModel) => {
                
-                if(criteria == SongFields.AUTHORS) {
+                if(field == SongFields.AUTHORS) {
                     return song.authors.map(author => author.name).includes(String(criteriaValue));
                 }
-                else if(criteria == SongFields.GENRES) {
+                else if(field == SongFields.GENRES) {
                     return song.genres.includes(String(criteriaValue));
                 }
-                else if(criteria == SongFields.LYRICS) {
+                else if(field == SongFields.LYRICS) {
                     return song.lyrics.includes(String(criteriaValue));
                 }
-                return song[criteria] == criteriaValue;
+                return song[field] == criteriaValue;
             })
         }
         arr = this.sortSongArray(arr, sortAttribute, order);
