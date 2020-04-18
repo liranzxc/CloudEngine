@@ -9,19 +9,19 @@ export class SongService implements SongServiceModel {
 
     constructor(private http: HttpService) {
         // Uncomment to create stub entries for testing
-         const arr : number[] = Array.from(new Array(100).keys());
+        //  const arr : number[] = Array.from(new Array(100).keys());
         
-        arr.map(id => {
-            return {songId: id.toString(),
-                    name: id.toString(),
-                    performer:id.toString(),
-                    producer: id.toString(),
-                    genres: [(id+1) + "", (id+2) + "", "rock"],
-                    authors: [{name: id.toString()}, {name: (id + 1).toString()}],
-                    publishedYear: id*100,
-                    lyrics: id.toString()
-                } as SongModel    
-        }).forEach(song => this.songs[song.songId] = song)
+        // arr.map(id => {
+        //     return {songId: id.toString(),
+        //             name: id.toString(),
+        //             performer:id.toString(),
+        //             producer: id.toString(),
+        //             genres: [(id+1) + "", (id+2) + "", "rock"],
+        //             authors: [{name: id.toString()}, {name: (id + 1).toString()}],
+        //             publishedYear: id*100,
+        //             lyrics: id.toString()
+        //         } as SongModel    
+        // }).forEach(song => this.songs[song.songId] = song)
     }
     getById(id: string): SongModel {
         if (!(id in this.songs)) {
