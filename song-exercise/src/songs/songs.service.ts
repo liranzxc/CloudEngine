@@ -88,11 +88,11 @@ export class SongService implements SongServiceModel {
                 case SongFields.PUBLISHED_YEAR:
                     return song1.publishedYear > song2.publishedYear ? retVal : -retVal;
                 case SongFields.LYRICS:
-                    return song1.lyrics.length > song2.lyrics.length ? retVal : -retVal;
+                    return song1.lyrics > song2.lyrics ? retVal : -retVal;
                 case SongFields.AUTHORS:
-                    // undefined
+                    return song1.authors.length > song2.authors.length ? retVal : -retVal;
                 case SongFields.GENRES:
-                    // undefined
+                    return song1.genres.length > song2.genres.length ? retVal : -retVal;
                 default:
                     // SongID is default
                     return song1.songId > song2.songId ? retVal : -retVal;
