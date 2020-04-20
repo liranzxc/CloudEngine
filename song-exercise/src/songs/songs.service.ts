@@ -35,7 +35,7 @@ export class SongService implements SongServiceModel {
         song = this.validateSong(song);
         const id = song.songId;
         if (this.songs.hasOwnProperty(id)) {
-            throw new HttpException({ status: HttpStatus.INTERNAL_SERVER_ERROR, error: "song id " + id + " already exists." }, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "song id " + id + " already exists." }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         this.songs[id] = song;
         return this.songs[id];
