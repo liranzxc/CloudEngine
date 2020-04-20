@@ -164,8 +164,8 @@ export class SongService implements SongServiceModel {
         }
 
 
-        if (song.songId == null) {
-            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs defined songId" }, HttpStatus.BAD_REQUEST);
+        if (song.songId == null || song.songId === "") {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs defined songId thats not empty String" }, HttpStatus.BAD_REQUEST);
         }
         else if (typeof(song.songId) !== 'string') {
             throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs songId of type String" }, HttpStatus.BAD_REQUEST);
