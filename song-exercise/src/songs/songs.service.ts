@@ -32,7 +32,7 @@ export class SongService implements SongServiceModel {
     }
 
     createSong(song: SongModel): SongModel {
-        this.validateSong(song);
+        song = this.validateSong(song);
         const id = song.songId;
         if (this.songs.hasOwnProperty(id)) {
             throw new HttpException({ status: HttpStatus.INTERNAL_SERVER_ERROR, error: "song id " + id + " already exists." }, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,7 +41,7 @@ export class SongService implements SongServiceModel {
         return this.songs[id];
     }
     updateSong(id: string, song: SongModel) {
-        this.validateSong(song);
+        song = this.validateSong(song);
         if (this.songs.hasOwnProperty(id)) {
             if(song.songId !== id) {
                 throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "song id " + id + "does not match song." }, HttpStatus.BAD_REQUEST);
