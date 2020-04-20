@@ -32,6 +32,7 @@ export class SongService implements SongServiceModel {
     }
 
     createSong(song: SongModel): SongModel {
+        this.validateSong(song);
         const id = song.songId;
         if (this.songs.hasOwnProperty(id)) {
             throw new HttpException({ status: HttpStatus.INTERNAL_SERVER_ERROR, error: "song id " + id + " already exists." }, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,6 +41,7 @@ export class SongService implements SongServiceModel {
         return this.songs[id];
     }
     updateSong(id: string, song: SongModel) {
+        this.validateSong(song);
         if (this.songs.hasOwnProperty(id)) {
             if(song.songId !== id) {
                 throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "song id " + id + "does not match song." }, HttpStatus.BAD_REQUEST);
@@ -122,6 +124,86 @@ export class SongService implements SongServiceModel {
             default:
                 return null;
         }
+    }
+
+
+
+
+    validateSong(song: SongModel): SongModel {
+        if (song.name == null) {
+            song.name = "N/A";
+        }
+        else if (typeof(song.name) !== 'string') {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs name in type String" }, HttpStatus.BAD_REQUEST);
+        }
+
+
+        if (song.authors == null) {
+            song.authors = [ {name:"N/A"} ];
+        }
+        else if (Array.isArray(song.authors)) {
+            if (song.authors.filter(a => typeof(a.name) === 'string' ).length != song.authors.length) {
+                throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs authors to have name property of type String" }, HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs authors to be of type Author[]" }, HttpStatus.BAD_REQUEST);
+        }
+
+
+        if (song.genres == null) {
+            song.genres = ["N/A"];
+        }
+        else if (Array.isArray(song.genres)) {
+            if (song.genres.filter(g => typeof(g) === 'string' ).length != song.genres.length) {
+                throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs genres elements to be of type String" }, HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs genres names to be of type String[]" }, HttpStatus.BAD_REQUEST);
+        }
+
+
+        if (song.songId == null) {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs defined songId" }, HttpStatus.BAD_REQUEST);
+        }
+        else if (typeof(song.songId) !== 'string') {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs songId of type String" }, HttpStatus.BAD_REQUEST);
+        }
+
+        
+        if (song.lyrics == null) {
+            song.lyrics = "";
+        }
+        else if (typeof(song.lyrics) !== 'string') {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs lyrics to be of type String" }, HttpStatus.BAD_REQUEST);
+        }
+
+
+        if (song.performer == null) {
+            song.performer = "N/A";
+        }
+        else if (typeof(song.performer) !== 'string') {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs performer to be of type String" }, HttpStatus.BAD_REQUEST);
+        }
+
+
+        if (song.producer == null) {
+            song.producer = "N/A";
+        }
+        else if (typeof(song.producer) !== 'string') {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs producer to be of type String" }, HttpStatus.BAD_REQUEST);
+        }
+
+
+        if (song.publishedYear == null) {
+            song.publishedYear = 0;
+        }
+        else if (typeof(song.publishedYear) !== 'number') {
+            throw new HttpException({ status: HttpStatus.BAD_REQUEST, error: "Song format needs publishedYear to be of type Number" }, HttpStatus.BAD_REQUEST);
+        }
+       
+        return song;
     }
 
 
