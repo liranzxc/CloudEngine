@@ -1,0 +1,3 @@
+[submodule "CloudEngine"]
+	path = CloudEngine
+	url = https://github.com/liranzxc/CloudEngine.git
