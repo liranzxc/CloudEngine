@@ -17,8 +17,13 @@ export interface CustomerDTO {
 
 export class CustomerBoundary implements CustomerDTO{
 
-    constructor(customerEntity:CustomerEntity) {
-        return {...customerEntity, birthdate : customerEntity.birthdate.toString() } as CustomerBoundary;
+    constructor(customerEntity:CustomerEntity=undefined) {
+
+        if(customerEntity)
+        {
+            return {...customerEntity, birthdate : customerEntity.birthdate.toString() } as CustomerBoundary;
+        }
+
     }
 
 

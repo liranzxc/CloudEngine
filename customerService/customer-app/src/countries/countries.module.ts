@@ -8,6 +8,7 @@ import {CountryEntity} from "../entities/country.entity";
     imports: [
         TypeOrmModule.forFeature([CountryEntity])
     ],
+    exports:[CountriesService],
     controllers: [CountriesController],
     providers: [CountriesService],
 })

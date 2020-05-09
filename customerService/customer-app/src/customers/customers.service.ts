@@ -40,7 +40,7 @@ export class CustomersService {
             query = {...query,...{"birthdate" : LessThanOrEqual(dateNow)}};
         }
 
-        return getRepository(CustomerEntity).find({ where:{
+        return getRepository(CustomerEntity).find({ skip:query.page * query.size ,take:query.size, where:{
             ...query
             }, relations:["country"]})
 
@@ -54,7 +54,7 @@ export class CustomersService {
 
     async updateCustomerByEmail(email: string, customerBody: CustomerEntity) {
 
-        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email}});
+        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email},relations:["country"]});
 
         if(customer)
         {
@@ -90,7 +90,7 @@ export class CustomersService {
     }
 
     async getCustomerByEmail(email: string) {
-        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email}});
+        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email},relations:["country"]});
 
         if(customer)
         {
@@ -105,7 +105,7 @@ export class CustomersService {
 
     async createCustomer(customerBody: CustomerEntity) {
 
-        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:customerBody.email}});
+        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:customerBody.email},relations:["country"]});
 
         if(customer)
         {
