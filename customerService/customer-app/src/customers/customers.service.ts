@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {CustomerDTO} from "../models/customer.model";
-import {getRepository} from "typeorm";
+import {getRepository, LessThan, LessThanOrEqual, MoreThan} from "typeorm";
 import {CustomerEntity} from "../entities/customer.entity";
 import {CountriesService} from "../countries/countries.service";
 import {CountryEntity} from "../entities/country.entity";
@@ -11,13 +11,46 @@ export class CustomersService {
 
     constructor(private countryService:CountriesService) {
     }
+
+    /***
+     * filter must be contains page and size
+     * @param filter
+     */
     async getCustomers(filter: any) {
-        return undefined;
+
+        let query = {page: filter.page , size: filter.size};
+
+        let keys = Object.keys(filter);
+
+        if(keys.includes("byLastName"))
+        {
+            query = {...query,...{"name.last" : query["byLastName"]}}
+        }
+
+        if(keys.includes("byCountryCode"))
+        {
+            query = {...query,...{"country.countryCode" : query["byCountryCode"]}}
+        }
+
+        if(keys.includes("byAgeGreaterThan"))
+        {
+            let dateNow = new Date();
+            let newYear:number =  dateNow.getFullYear() - Number(query["byAgeGreaterThan"]) ;
+            dateNow.setFullYear(newYear);
+            query = {...query,...{"birthdate" : LessThanOrEqual(dateNow)}};
+        }
+
+        return getRepository(CustomerEntity).find({ where:{
+            ...query
+            }, relations:["country"]})
+
+
     }
 
     async deleteAllCustomers() {
         await getRepository(CustomerEntity).delete({});
     }
+
 
     async updateCustomerByEmail(email: string, customerBody: CustomerEntity) {
 
@@ -56,8 +89,18 @@ export class CustomersService {
 
     }
 
-    getCustomerByEmail(email: string) {
-        return getRepository(CustomerEntity).findOne({where : { email:email}});
+    async getCustomerByEmail(email: string) {
+        let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email}});
+
+        if(customer)
+        {
+            return customer;
+        }
+        else
+        {
+            throw  new HttpException("customer not exists",HttpStatus.NOT_FOUND);
+
+        }
     }
 
     async createCustomer(customerBody: CustomerEntity) {

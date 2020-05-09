@@ -1,6 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put, Query, Req} from "@nestjs/common";
-import {CustomerDTO} from "../models/customer.model";
+import {CustomerBoundary, CustomerDTO} from "../models/customer.model";
 import {CustomersService} from "./customers.service";
+import {CustomerEntity} from "../entities/customer.entity";
 
 
 @Controller("/customers")
@@ -10,21 +11,22 @@ export class CustomersController {
     }
 
     @Post()
-    async createCustomer(@Body() customerDto :CustomerDTO)
+    async createCustomer(@Body() customerDto :CustomerBoundary)
     {
-        return this.customerService.createCustomer(customerDto);
+        return this.customerService.createCustomer(customerDto.toEntity());
     }
 
     @Get("/:email")
     async getCustomerByEmail(@Param("email") email:string)
     {
-        return this.customerService.getCustomerByEmail(email);
+        let customer :CustomerEntity =  await  this.customerService.getCustomerByEmail(email);
+        return new CustomerBoundary(customer);
     }
 
     @Put("/:email")
-    async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerDTO)
+    async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerBoundary)
     {
-        await this.customerService.updateCustomerByEmail(email,customerDto);
+        await this.customerService.updateCustomerByEmail(email,customerDto.toEntity());
     }
 
     @Delete()
@@ -51,7 +53,9 @@ export class CustomersController {
         //TODO transform to integer
         let filter = {...{size:Number(size),page:Number(page)} , ...req.query};
 
-        return this.customerService.getCustomers(filter);
+        let customers :CustomerEntity[] = await  this.customerService.getCustomers(filter);
+
+        return customers.map(c => new CustomerBoundary(c));
     }
 
 
