@@ -9,29 +9,29 @@ export class CustomersController {
     constructor( private customerService:CustomersService) {
     }
 
-    // @Post()
-    // async createCustomer(@Body() customerDto :CustomerDTO)
-    // {
-    //     return this.customerService.createCustomer(customerDto);
-    // }
-    //
-    // @Get("/:email")
-    // async getCustomerByEmail(@Param("email") email:string)
-    // {
-    //     return this.customerService.getCustomerByEmail(email);
-    // }
-    //
-    // @Put("/:email")
-    // async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerDTO)
-    // {
-    //     await this.customerService.updateCustomerByEmail(email,customerDto);
-    // }
-    //
-    // @Delete()
-    // async deleteAllCustomer()
-    // {
-    //     await this.customerService.deleteAllCustomers();
-    // }
+    @Post()
+    async createCustomer(@Body() customerDto :CustomerDTO)
+    {
+        return this.customerService.createCustomer(customerDto);
+    }
+
+    @Get("/:email")
+    async getCustomerByEmail(@Param("email") email:string)
+    {
+        return this.customerService.getCustomerByEmail(email);
+    }
+
+    @Put("/:email")
+    async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerDTO)
+    {
+        await this.customerService.updateCustomerByEmail(email,customerDto);
+    }
+
+    @Delete()
+    async deleteAllCustomer()
+    {
+        await this.customerService.deleteAllCustomers();
+    }
 
 
     @Get()
