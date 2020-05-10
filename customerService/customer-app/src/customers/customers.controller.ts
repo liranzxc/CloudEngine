@@ -31,9 +31,11 @@ export class CustomersController {
     @ApiParam({ name: "email", required: true})
     @ApiBody({ type: CustomerBoundary })
     @Put("/:email")
-    async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerBoundary)
+    // async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerBoundary)
+    async updateCustomerByEmail(@Param("email") email:string,@Body() customerUpdateFields :Map<string,object>)
     {
-        await this.customerService.updateCustomerByEmail(email,this.toEntity(customerDto));
+        // await this.customerService.updateCustomerByEmail(email,this.toEntity(customerDto));
+        await this.customerService.updateCustomerByEmailAndFields(email,customerUpdateFields);
     }
 
     @Delete()
@@ -59,7 +61,7 @@ export class CustomersController {
     {
         if([byLastName,byCountryCode,byAgeGreaterThan].filter( i => i !== undefined).length > 1)
         {
-            return "not allow";
+            throw new HttpException("This api does not allow more than 1 query.", HttpStatus.BAD_REQUEST);
         }
 
         //TODO transform to integer
@@ -74,13 +76,22 @@ export class CustomersController {
         const date = require('date-and-time');
         let entity :CustomerEntity = {} as CustomerEntity;
         entity.email = customerDto.email;
-        if (!customerDto.name.first||!customerDto.name.last) {
+    
+        if (!customerDto.name.hasOwnProperty("first")||!customerDto.name.hasOwnProperty("last")) {
             throw new HttpException("Name should have first and last name.", HttpStatus.BAD_REQUEST);
         }
+
+        
         entity.name = customerDto.name;
 
+        if (!customerDto.country.hasOwnProperty("countryCode")||!customerDto.country.hasOwnProperty("countryName")) {
+            throw new HttpException("Country should have countryCode and countryName properties.", HttpStatus.BAD_REQUEST);
+        }
+        else if(customerDto.country.countryCode.length != 2){
+            throw new HttpException("Country should have countryCode of 2 letters only.", HttpStatus.BAD_REQUEST); 
+        }
         entity.country = customerDto.country;
-        
+
         entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
         if (entity.birthdate.getTime()!==entity.birthdate.getTime()) {
             throw new HttpException("Bad date format. Should be DD-MM-YYYY", HttpStatus.BAD_REQUEST);

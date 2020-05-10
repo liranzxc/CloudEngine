@@ -1,7 +1,9 @@
 import {CountryModel} from "./country.model";
 import {CustomerEntity} from "../entities/customer.entity";
 import date from 'date-and-time';
-import { IsEmail, IsDateString } from "class-validator";
+import { IsEmail, IsDateString, IsNotEmpty } from "class-validator";
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { ApiProperty } from "@nestjs/swagger";
 
 export interface CustomerModel {
     email:string; // id
@@ -11,6 +13,7 @@ export interface CustomerModel {
 }
 
 export interface CustomerDTO {
+    
     email:string; // id
     name : NameModel;
     birthdate: string ; //dd-MM-yyyy
@@ -33,24 +36,39 @@ export class CustomerBoundary implements CustomerDTO{
 
 
     @IsEmail()
+    @ApiProperty()
     email:string; // id
 
+    @IsNotEmpty()
+    @ApiProperty()
     name : NameModel;
 
+    @IsNotEmpty()
+    @ApiProperty()
     birthdate: string ; //dd-MM-yyyy
 
+    @IsNotEmpty()
+    @ApiProperty()
     country:CountryModel;
 
-    toEntity(customerDto: CustomerBoundary)
-    {
-        const date = require('date-and-time');
-        let entity :CustomerEntity = {} as CustomerEntity;
-        entity.email = this.email;
-        entity.name = this.name;
-        entity.country = this.country;
-        entity.birthdate = date.parse(this.birthdate,'DD-MM-YYYY');
-        return entity;
-    }
+    // toEntity(customerDto: CustomerBoundary)
+    // {
+    //     const date = require('date-and-time');
+    //     let entity :CustomerEntity = {} as CustomerEntity;
+    //     entity.email = customerDto.email;
+    //     if (!customerDto.name.first||!customerDto.name.last) {
+    //         throw new HttpException("Name should have first and last name.", HttpStatus.BAD_REQUEST);
+    //     }
+    //     entity.name = customerDto.name;
+
+    //     entity.country = customerDto.country;
+        
+    //     entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
+    //     if (entity.birthdate.getTime()!==entity.birthdate.getTime()) {
+    //         throw new HttpException("Bad date format. Should be DD-MM-YYYY", HttpStatus.BAD_REQUEST);
+    //     }
+    //     return entity;
+    // }
 
 
 }
