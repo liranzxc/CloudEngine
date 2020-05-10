@@ -13,8 +13,4 @@ export class CountryEntity implements CountryModel{
 
     @Column({type:"text"})
     countryName: string;
-
-    //
-    // @OneToMany(type => CustomerEntity , (customer : CustomerEntity) => customer.country)
-    // customerId:CustomerEntity;
 }
