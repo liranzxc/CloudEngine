@@ -1,6 +1,7 @@
 import {CountryModel} from "./country.model";
 import {CustomerEntity} from "../entities/customer.entity";
 import date from 'date-and-time';
+import { IsEmail, IsDateString } from "class-validator";
 
 export interface CustomerModel {
     email:string; // id
@@ -31,9 +32,13 @@ export class CustomerBoundary implements CustomerDTO{
     }
 
 
+    @IsEmail()
     email:string; // id
+
     name : NameModel;
+
     birthdate: string ; //dd-MM-yyyy
+
     country:CountryModel;
 
     toEntity(customerDto: CustomerBoundary)

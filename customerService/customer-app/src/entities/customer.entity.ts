@@ -21,7 +21,7 @@ export class CustomerEntity implements CustomerModel{
     //     }
     // }
     @PrimaryColumn()
-    @IsEmail()
+    // @IsEmail()
     email: string;
 
     @Column({type:'simple-json'})

@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Query, Req} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, Query, Req, HttpException, HttpStatus} from "@nestjs/common";
 import {CustomerBoundary, CustomerDTO} from "../models/customer.model";
 import {CustomersService} from "./customers.service";
 import {CustomerEntity} from "../entities/customer.entity";
@@ -71,16 +71,17 @@ export class CustomersController {
 
     toEntity(customerDto: CustomerBoundary)
     {
-    const date = require('date-and-time');
-    let entity :CustomerEntity = {} as CustomerEntity;
-    entity.email = customerDto.email;
-    entity.name = customerDto.name;
-    entity.country = customerDto.country;
-    entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
-    return entity;
+        const date = require('date-and-time');
+        let entity :CustomerEntity = {} as CustomerEntity;
+        entity.email = customerDto.email;
+        entity.name = customerDto.name;
+        entity.country = customerDto.country;
+        
+        entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
+        if (entity.birthdate.getTime()!==entity.birthdate.getTime()) {
+            throw new HttpException("Bad date format. Should be DD-MM-YYYY", HttpStatus.BAD_REQUEST);
+        }
+        return entity;
     }
-
-
-
 
 }
