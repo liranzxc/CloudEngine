@@ -74,7 +74,11 @@ export class CustomersController {
         const date = require('date-and-time');
         let entity :CustomerEntity = {} as CustomerEntity;
         entity.email = customerDto.email;
+        if (!customerDto.name.first||!customerDto.name.last) {
+            throw new HttpException("Name should have first and last name.", HttpStatus.BAD_REQUEST);
+        }
         entity.name = customerDto.name;
+
         entity.country = customerDto.country;
         
         entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
