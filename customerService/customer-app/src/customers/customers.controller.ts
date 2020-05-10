@@ -81,8 +81,8 @@ export class CustomersController {
             throw new HttpException("Name should have first and last name.", HttpStatus.BAD_REQUEST);
         }
 
-        
-        entity.name = customerDto.name;
+        entity.firstName = customerDto.name.first;
+        entity.lastName = customerDto.name.last;
 
         if (!customerDto.country.hasOwnProperty("countryCode")||!customerDto.country.hasOwnProperty("countryName")) {
             throw new HttpException("Country should have countryCode and countryName properties.", HttpStatus.BAD_REQUEST);

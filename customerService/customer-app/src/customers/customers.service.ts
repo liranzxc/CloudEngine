@@ -30,12 +30,12 @@ export class CustomersService {
 
         if(keys.includes("byLastName"))
         {
-            query = {...query,...{"name.last" : filter["byLastName"]}}
+            query = {...query,...{"lastName" : filter["byLastName"]}}
         }
 
         if(keys.includes("byCountryCode"))
         {
-            query = {...query,...{"country.countryCode" : filter["byCountryCode"]}}
+            query = {...query,...{"country" : filter["byCountryCode"]}}
         }
 
         if(keys.includes("byAgeGreaterThan"))
@@ -48,6 +48,7 @@ export class CustomersService {
             query = {...query,...{"birthdate" : LessThanOrEqual(dateNow)}};
         }
 
+        // console.log(query);
         let customers :CustomerEntity[] = await getRepository(CustomerEntity).find({ skip:query.page * query.size ,take:query.size, where:{
             ...query
             }, relations:["country"]});
@@ -73,10 +74,10 @@ export class CustomersService {
                 if (key == "name") {
                     value = value as NameModel;
                     if (value.hasOwnProperty("first")) {
-                        customer.name.first=value.first;
+                        customer.firstName=value.first;
                     }
                     if (value.hasOwnProperty("last")) {
-                        customer.name.last=value.last;
+                        customer.lastName=value.last;
                     }
                 }
                 else if (key == "country") {

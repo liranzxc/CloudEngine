@@ -24,8 +24,11 @@ export class CustomerEntity implements CustomerModel{
     // @IsEmail()
     email: string;
 
-    @Column({type:'simple-json'})
-    name: NameModel;
+    @Column({type:'text'})
+    firstName: string;
+
+    @Column({type:'text'})
+    lastName: string;
 
     @Column({type:"date"})
     birthdate: Date ;

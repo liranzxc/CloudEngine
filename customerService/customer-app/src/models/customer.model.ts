@@ -7,7 +7,8 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export interface CustomerModel {
     email:string; // id
-    name : NameModel;
+    firstName : string;
+    lastName : string;
     birthdate: Date ; //dd-MM-yyyy
     country:CountryModel;
 }
@@ -29,7 +30,8 @@ export class CustomerBoundary implements CustomerDTO{
             const date = require('date-and-time');
             // console.log(customerEntity.birthdate+ " check entity");
             // console.log(date.format(customerEntity.birthdate,'DD-MM-YYYY')+ " check boundary");
-            return {...customerEntity, birthdate : date.format(customerEntity.birthdate,'DD-MM-YYYY') } as CustomerBoundary;
+            let Name = {"first":customerEntity.firstName , "last": customerEntity.lastName} as NameModel;
+            return {...customerEntity,name: Name, birthdate : date.format(customerEntity.birthdate,'DD-MM-YYYY') } as CustomerBoundary;
         }
 
     }
