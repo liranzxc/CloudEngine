@@ -18,6 +18,7 @@ export class CustomersService {
      */
     async getCustomers(filter: any) {
 
+        const date = require('date-and-time');
         let query = {page: filter.page , size: filter.size};
 
         let keys = Object.keys(filter);
@@ -40,9 +41,12 @@ export class CustomersService {
             query = {...query,...{"birthdate" : LessThanOrEqual(dateNow)}};
         }
 
-        return getRepository(CustomerEntity).find({ skip:query.page * query.size ,take:query.size, where:{
+        let customers :CustomerEntity[] = await getRepository(CustomerEntity).find({ skip:query.page * query.size ,take:query.size, where:{
             ...query
             }, relations:["country"]})
+            customers.forEach(c=> c.birthdate = date.parse(c.birthdate,"YYYY-MM-DD"));
+            return customers;
+        // return 
 
 
     }
@@ -90,10 +94,12 @@ export class CustomersService {
     }
 
     async getCustomerByEmail(email: string) {
+        const date = require('date-and-time');
         let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email},relations:["country"]});
 
         if(customer)
         {
+            customer.birthdate = date.parse(customer.birthdate,"YYYY-MM-DD");
             return customer;
         }
         else
@@ -125,11 +131,7 @@ export class CustomersService {
                 let countrySave : CountryEntity = await this.countryService.createCountry(customerBody.country);
                 customerBody.country = countrySave;
             }
-
-
             return getRepository(CustomerEntity).save(customerBody);
-
-
         }
 
     }

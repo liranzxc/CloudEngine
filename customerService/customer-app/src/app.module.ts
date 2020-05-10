@@ -13,11 +13,11 @@ import {CountriesModule} from "./countries/countries.module";
 
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.POSTGRESQL_HOST,
-      port: parseInt(process.env.POSTGRESQL_PORT, 10),
-      username: process.env.POSTGRESQL_USERNAME,
-      password: process.env.POSTGRESQL_PASSWORD,
-      database: process.env.POSTGRESQL_DATABASE,
+      host: 'localhost',//process.env.POSTGRESQL_HOST,
+      port: 5432,//parseInt(process.env.POSTGRESQL_PORT, 10),
+      username: 'postgres',//process.env.POSTGRESQL_USERNAME,
+      password: '12345',//process.env.POSTGRESQL_PASSWORD,
+      database: 'postgres',//process.env.POSTGRESQL_DATABASE,
       entities: [CountryEntity,CustomerEntity],
       synchronize: true
     }),
