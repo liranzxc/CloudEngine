@@ -11,26 +11,22 @@ export class CountriesService {
 
        let country:CountryEntity = await getRepository(CountryEntity).findOne({ where : { countryCode : countryCode }});
 
-       if(country)
-       {
+       if(country) {
            country.countryName = countryDto.countryName;
            await getRepository(CountryEntity).save(country);
        }
-       else
-       {
+       else {
            throw new HttpException("country code not found",HttpStatus.NOT_FOUND);
        }
 
     }
 
-    async getCountryByCode(countryCode:string)
-    {
+    async getCountryByCode(countryCode:string) {
         return getRepository(CountryEntity).findOne({where : { countryCode : countryCode}});
     }
 
 
-    async createCountry(countryDto: CountryModel)
-    {
+    async createCountry(countryDto: CountryModel) {
         let country:CountryEntity = {...countryDto} as CountryEntity;
         return getRepository(CountryEntity).save(country);
     }

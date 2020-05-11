@@ -11,6 +11,16 @@ export interface CountryModel {
 export class CountryBoundary implements CountryModel{
 
 
+
+    constructor(countryEntity:CountryEntity=undefined) {
+
+        if(countryEntity) {
+            return {...countryEntity} as CountryBoundary;
+        }
+
+    }
+
+
     @ApiProperty()
     countryCode: string;
     

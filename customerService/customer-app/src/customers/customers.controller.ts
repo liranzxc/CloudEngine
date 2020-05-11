@@ -14,16 +14,14 @@ export class CustomersController {
 
     @ApiBody({ type: CustomerBoundary })
     @Post()
-    async createCustomer(@Body() customerDto :CustomerBoundary)
-    {
-        let check = new CustomerBoundary(await this.customerService.createCustomer(this.toEntity(customerDto)));
+    async createCustomer(@Body() customerDto :CustomerBoundary) {
+        let check = new CustomerBoundary(await this.customerService.createCustomer(CustomerBoundary.toEntity(customerDto)));
         return check;
     }
 
     @ApiParam({ name: "email", required: true})
     @Get("/:email")
-    async getCustomerByEmail(@Param("email") email:string)
-    {
+    async getCustomerByEmail(@Param("email") email:string) {
         let customer :CustomerEntity =  await  this.customerService.getCustomerByEmail(email);
         return new CustomerBoundary(customer);
     }
@@ -32,15 +30,13 @@ export class CustomersController {
     @ApiBody({ type: CustomerBoundary })
     @Put("/:email")
     // async updateCustomerByEmail(@Param("email") email:string,@Body() customerDto :CustomerBoundary)
-    async updateCustomerByEmail(@Param("email") email:string,@Body() customerUpdateFields :Map<string,object>)
-    {
+    async updateCustomerByEmail(@Param("email") email:string,@Body() customerUpdateFields :Map<string,object>) {
         // await this.customerService.updateCustomerByEmail(email,this.toEntity(customerDto));
         await this.customerService.updateCustomerByEmailAndFields(email,customerUpdateFields);
     }
 
     @Delete()
-    async deleteAllCustomer()
-    {
+    async deleteAllCustomer() {
         await this.customerService.deleteAllCustomers();
     }
 
@@ -59,8 +55,7 @@ export class CustomersController {
                                 @Query("byCountryCode") byCountryCode: string)
 
     {
-        if([byLastName,byCountryCode,byAgeGreaterThan].filter( i => i !== undefined).length > 1)
-        {
+        if([byLastName,byCountryCode,byAgeGreaterThan].filter( i => i !== undefined).length > 1) {
             throw new HttpException("This api does not allow more than 1 query.", HttpStatus.BAD_REQUEST);
         }
 
@@ -71,32 +66,32 @@ export class CustomersController {
         return customers.map(c => new CustomerBoundary(c));
     }
 
-    toEntity(customerDto: CustomerBoundary)
-    {
-        const date = require('date-and-time');
-        let entity :CustomerEntity = {} as CustomerEntity;
-        entity.email = customerDto.email;
+    // toEntity(customerDto: CustomerBoundary)
+    // {
+    //     const date = require('date-and-time');
+    //     let entity :CustomerEntity = {} as CustomerEntity;
+    //     entity.email = customerDto.email;
     
-        if (!customerDto.name.hasOwnProperty("first")||!customerDto.name.hasOwnProperty("last")) {
-            throw new HttpException("Name should have first and last name.", HttpStatus.BAD_REQUEST);
-        }
+    //     if (!customerDto.name.hasOwnProperty("first")||!customerDto.name.hasOwnProperty("last")) {
+    //         throw new HttpException("Name should have first and last name.", HttpStatus.BAD_REQUEST);
+    //     }
 
-        entity.firstName = customerDto.name.first;
-        entity.lastName = customerDto.name.last;
+    //     entity.firstName = customerDto.name.first;
+    //     entity.lastName = customerDto.name.last;
 
-        if (!customerDto.country.hasOwnProperty("countryCode")||!customerDto.country.hasOwnProperty("countryName")) {
-            throw new HttpException("Country should have countryCode and countryName properties.", HttpStatus.BAD_REQUEST);
-        }
-        else if(customerDto.country.countryCode.length != 2){
-            throw new HttpException("Country should have countryCode of 2 letters only.", HttpStatus.BAD_REQUEST); 
-        }
-        entity.country = customerDto.country;
+    //     if (!customerDto.country.hasOwnProperty("countryCode")||!customerDto.country.hasOwnProperty("countryName")) {
+    //         throw new HttpException("Country should have countryCode and countryName properties.", HttpStatus.BAD_REQUEST);
+    //     }
+    //     else if(customerDto.country.countryCode.length != 2){
+    //         throw new HttpException("Country should have countryCode of 2 letters only.", HttpStatus.BAD_REQUEST); 
+    //     }
+    //     entity.country = customerDto.country;
 
-        entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
-        if (entity.birthdate.getTime()!==entity.birthdate.getTime()) {
-            throw new HttpException("Bad date format. Should be DD-MM-YYYY", HttpStatus.BAD_REQUEST);
-        }
-        return entity;
-    }
+    //     entity.birthdate=date.parse(customerDto.birthdate,'DD-MM-YYYY')
+    //     if (entity.birthdate.getTime()!==entity.birthdate.getTime()) {
+    //         throw new HttpException("Bad date format. Should be DD-MM-YYYY", HttpStatus.BAD_REQUEST);
+    //     }
+    //     return entity;
+    // }
 
 }

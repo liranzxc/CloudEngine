@@ -23,23 +23,19 @@ export class CustomersService {
 
         const date = require('date-and-time');
         
-
         let query = {page: filter.page , size: filter.size};
 
         let keys = Object.keys(filter);
 
-        if(keys.includes("byLastName"))
-        {
+        if(keys.includes("byLastName")) {
             query = {...query,...{"lastName" : filter["byLastName"]}}
         }
 
-        if(keys.includes("byCountryCode"))
-        {
+        if(keys.includes("byCountryCode")) {
             query = {...query,...{"country" : filter["byCountryCode"]}}
         }
 
-        if(keys.includes("byAgeGreaterThan"))
-        {
+        if(keys.includes("byAgeGreaterThan")) {
             let dateNow = new Date();
             let newYear:number =  dateNow.getFullYear() - Number(filter["byAgeGreaterThan"]) ;
             dateNow.setFullYear(newYear);
@@ -48,7 +44,6 @@ export class CustomersService {
             query = {...query,...{"birthdate" : LessThanOrEqual(dateNow)}};
         }
 
-        // console.log(query);
         let customers :CustomerEntity[] = await getRepository(CustomerEntity).find({ skip:query.page * query.size ,take:query.size, where:{
             ...query
             }, relations:["country"]});
@@ -68,8 +63,7 @@ export class CustomersService {
     async updateCustomerByEmailAndFields(email: string, customerUpdateFields: Map<string, object>) {
         let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email},relations:["country"]});
 
-        if(customer)
-        {
+        if(customer) {
             for (let [key, value] of Object.entries(customerUpdateFields)) {
                 if (key == "name") {
                     value = value as NameModel;
@@ -82,23 +76,16 @@ export class CustomersService {
                 }
                 else if (key == "country") {
                     value = value as CountryModel;
-                    // console.log(value);
                     if (value.hasOwnProperty("countryCode")) {
                         let CountryJSON:CountryEntity = await this.countryService.getCountryByCode(value.countryCode);
-                        // console.log((typeof CountryJSON) != 'undefined');
-                        if((typeof CountryJSON)  != 'undefined')
-                        {
-                            // console.log("if");
+                        if((typeof CountryJSON)  != 'undefined') {
                             customer.country = CountryJSON;
                         }
-                        else
-                        {
-                            // console.log("else");
+                        else {
                             throw new HttpException("country code doesnt exists.",HttpStatus.NOT_FOUND);
                         }
                     }
                     else {
-                        // console.log("check");
                         throw new HttpException("Cannot update country for customer without countryCode.",HttpStatus.BAD_REQUEST);
                     } 
                 }
@@ -117,8 +104,7 @@ export class CustomersService {
             }
             await getRepository(CustomerEntity).save(customer);
         }
-        else
-        {
+        else {
             throw  new HttpException("customer email doesnt exists",HttpStatus.NOT_FOUND);
         }
     }
@@ -167,15 +153,12 @@ export class CustomersService {
         const date = require('date-and-time');
         let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email},relations:["country"]});
 
-        if(customer)
-        {
+        if(customer) {
             customer.birthdate = date.parse(customer.birthdate,"YYYY-MM-DD");
             return customer;
         }
-        else
-        {
+        else {
             throw  new HttpException("customer not exists",HttpStatus.NOT_FOUND);
-
         }
     }
 
@@ -183,21 +166,17 @@ export class CustomersService {
 
         let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:customerBody.email},relations:["country"]});
 
-        if(customer)
-        {
+        if(customer) {
             throw  new HttpException("email already exists",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        else
-        {
+        else {
             let CountryJSON:CountryEntity = await this.countryService.getCountryByCode(customerBody.country.countryCode);
 
 
-            if(CountryJSON)
-            {
+            if(CountryJSON) {
                 customerBody.country = CountryJSON;
             }
-            else
-            {
+            else {
                 let countrySave : CountryEntity = await this.countryService.createCountry(customerBody.country);
                 customerBody.country = countrySave;
             }
