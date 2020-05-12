@@ -3,11 +3,14 @@ import {CustomerEntity} from "../entities/customer.entity";
 import { IsEmail, IsNotEmpty } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import { CountryEntity } from "src/entities/country.entity";
+
 
 export interface CustomerModel {
+    
     email:string; // id
-    firstName : string;
-    lastName : string;
+    firstName: string;
+    lastName: string;
     birthdate: Date ; //dd-MM-yyyy
     country:CountryModel;
 }
@@ -15,9 +18,31 @@ export interface CustomerModel {
 export interface CustomerDTO {
     
     email:string; // id
-    name : NameModel;
+    name : NameBoundary;
     birthdate: string ; //dd-MM-yyyy
-    country:CountryModel;
+    country:CountryBoundary;
+}
+
+export interface NameModel {
+    first:string,
+    last:string;
+}
+
+export class NameBoundary implements NameModel{
+
+    constructor(nameBoundary:NameBoundary=undefined) {
+
+        if(nameBoundary) {
+            return {...nameBoundary} as NameBoundary;
+        }
+
+    }
+
+    @ApiProperty()
+    first:string;
+
+    @ApiProperty()
+    last:string;
 }
 
 export class CustomerBoundary implements CustomerDTO{
@@ -44,7 +69,7 @@ export class CustomerBoundary implements CustomerDTO{
 
     @IsNotEmpty()
     @ApiProperty()
-    name : NameModel;
+    name : NameBoundary;
 
     @IsNotEmpty()
     @ApiProperty()
@@ -52,7 +77,7 @@ export class CustomerBoundary implements CustomerDTO{
 
     @IsNotEmpty()
     @ApiProperty()
-    country:CountryModel;
+    country:CountryBoundary;
 
     static toEntity(customer:CustomerBoundary) :CustomerEntity
     {
@@ -112,7 +137,3 @@ export class CustomerBoundary implements CustomerDTO{
 // }
 
 
-export interface NameModel {
-    first:string,
-    last:string;
-}

@@ -82,11 +82,11 @@ export class CustomersService {
                             customer.country = CountryJSON;
                         }
                         else {
-                            throw new HttpException("country code doesnt exists.",HttpStatus.NOT_FOUND);
+                            throw new HttpException("country code does not exist.",HttpStatus.NOT_FOUND);
                         }
                     }
                     else {
-                        throw new HttpException("Cannot update country for customer without countryCode.",HttpStatus.BAD_REQUEST);
+                        throw new HttpException("Cannot update country for customer without a countryCode.",HttpStatus.BAD_REQUEST);
                     } 
                 }
                 else if (key == "birthdate") {
@@ -105,7 +105,7 @@ export class CustomersService {
             await getRepository(CustomerEntity).save(customer);
         }
         else {
-            throw  new HttpException("customer email doesnt exists",HttpStatus.NOT_FOUND);
+            throw  new HttpException("customer email does not exists",HttpStatus.NOT_FOUND);
         }
     }
 

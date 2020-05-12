@@ -10,8 +10,6 @@ export interface CountryModel {
 
 export class CountryBoundary implements CountryModel{
 
-
-
     constructor(countryEntity:CountryEntity=undefined) {
 
         if(countryEntity) {
@@ -19,7 +17,6 @@ export class CountryBoundary implements CountryModel{
         }
 
     }
-
 
     @ApiProperty()
     countryCode: string;
