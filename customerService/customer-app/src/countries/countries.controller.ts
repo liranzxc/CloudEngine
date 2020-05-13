@@ -10,7 +10,6 @@ export class CountriesController {
 
     constructor(private countryService: CountriesService) {
     }
-
     @ApiParam({ name: "countryCode", required: true })
     @Put("/:countryCode")
     async updateCountryCode(@Body() country: CountryBoundary, @Param("countryCode") countryCode: string) {

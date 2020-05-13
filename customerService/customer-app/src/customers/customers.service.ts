@@ -1,17 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { CustomerDTO, NameModel } from "../models/customer.model";
-import { getRepository, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual } from "typeorm";
+import { NameModel } from "../models/customer.model";
+import { getRepository, LessThan} from "typeorm";
 import { CustomerEntity } from "../entities/customer.entity";
 import { CountriesService } from "../countries/countries.service";
 import { CountryEntity } from "../entities/country.entity";
 import { CountryModel } from "src/models/country.model";
-
+import * as date from 'date-and-time';
 
 
 @Injectable()
 export class CustomersService {
-
-
     constructor(private countryService: CountriesService) {
     }
 
@@ -21,7 +19,6 @@ export class CustomersService {
      */
     async getCustomers(filter: any) {
 
-        const date = require('date-and-time');
 
         let query = { page: filter.page, size: filter.size };
 
@@ -41,7 +38,7 @@ export class CustomersService {
             dateNow.setFullYear(newYear);
             dateNow = date.format(dateNow, "YYYY-MM-DD");
             dateNow = date.parse(dateNow, "YYYY-MM-DD");
-            query = { ...query, ...{ "birthdate": LessThanOrEqual(dateNow) } };
+            query = { ...query, ...{ "birthdate": LessThan(dateNow) } };
         }
 
         let customers: CustomerEntity[] = await getRepository(CustomerEntity).find({
@@ -59,8 +56,6 @@ export class CustomersService {
     async deleteAllCustomers() {
         await getRepository(CustomerEntity).delete({});
     }
-
-
 
     async updateCustomerByEmailAndFields(email: string, customerUpdateFields: Map<string, object>) {
         let customer: CustomerEntity = await getRepository(CustomerEntity).findOne({ where: { email: email }, relations: ["country"] });
@@ -92,8 +87,7 @@ export class CustomersService {
                     }
                 }
                 else if (key == "birthdate") {
-                    const date = require('date-and-time');
-                    value = date.parse(value, 'DD-MM-YYYY')
+                    value = date.parse(value, 'DD-MM-YYYY');
                     if (value.getTime() !== value.getTime()) {
                         throw new HttpException("Bad date format. Should be DD-MM-YYYY", HttpStatus.BAD_REQUEST);
                     }
@@ -111,48 +105,7 @@ export class CustomersService {
         }
     }
 
-
-
-
-    // async updateCustomerByEmail(email: string, customerBody: CustomerEntity) {
-
-    //     let customer : CustomerEntity = await  getRepository(CustomerEntity).findOne({where : { email:email},relations:["country"]});
-
-    //     if(customer)
-    //     {
-    //         if(customer.country.countryCode !== customerBody.country.countryCode)
-    //         {
-    //             let CountryJSON:CountryEntity = await this.countryService.getCountryByCode(customerBody.country.countryCode);
-    //             if(CountryJSON)
-    //             {
-    //                 customer = {...customer,...customerBody} ;
-    //                 customer.country = CountryJSON;
-    //                 await getRepository(CustomerEntity).save(customer);
-    //             }
-    //             else
-    //             {
-    //                 return new HttpException("country code doesnt exists",HttpStatus.NOT_FOUND);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             delete customerBody.email;
-    //             delete customerBody.country;
-    //             customer = {...customer,...customerBody} ;
-    //             await getRepository(CustomerEntity).save(customer);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         throw  new HttpException("customer email doesnt exists",HttpStatus.NOT_FOUND);
-    //     }
-
-
-
-    // }
-
     async getCustomerByEmail(email: string) {
-        const date = require('date-and-time');
         let customer: CustomerEntity = await getRepository(CustomerEntity).findOne({ where: { email: email }, relations: ["country"] });
 
         if (customer) {
