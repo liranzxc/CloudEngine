@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b4bd9045-7db5-4b6b-85e0-32e16eb47587" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/customer-app" />
+  </component>
+  <component name="ProjectId" id="1bfwZO7GONSrbOka772j2VJ3eay" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/customer-app/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/customer-app/src/customers" />
+      <recent name="$PROJECT_DIR$/customer-app/src/countries" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/customer-app/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs>
+        <env name="POSTGRESQL_HOST" value="localhost" />
+        <env name="POSTGRESQL_PORT" value="5432" />
+        <env name="POSTGRESQL_USERNAME" value="root" />
+        <env name="POSTGRESQL_PASSWORD" value="root" />
+        <env name="POSTGRESQL_DATABASE" value="test" />
+      </envs>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4bd9045-7db5-4b6b-85e0-32e16eb47587" name="Default Changelist" comment="" />
+      <created>1589036510740</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589036510740</updated>
+      <workItem from="1589036512976" duration="5800000" />
+    </task>
+    <task id="LOCAL-00001" summary="customer Service">
+      <created>1589042003159</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589042003159</updated>
+    </task>
+    <task id="LOCAL-00002" summary="customer Service">
+      <created>1589042061736</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589042061736</updated>
+    </task>
+    <task id="LOCAL-00003" summary="customer Service">
+      <created>1589042238026</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1589042238026</updated>
+    </task>
+    <task id="LOCAL-00004" summary="customer Service">
+      <created>1589042289774</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589042289774</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="customer Service" />
+    <option name="LAST_COMMIT_MESSAGE" value="customer Service" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="460" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589038360225">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="460" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/71.24.1849.1056@71.24.1849.1056" timestamp="1589038360225" />
+    <state x="808" y="258" key="#com.intellij.ide.util.MemberChooser" timestamp="1589037246414">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="808" y="258" key="#com.intellij.ide.util.MemberChooser/71.24.1849.1056@71.24.1849.1056" timestamp="1589037246414" />
+    <state x="565" y="134" key="CommitChangelistDialog2" timestamp="1589042289690">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="565" y="134" key="CommitChangelistDialog2/71.24.1849.1056@71.24.1849.1056" timestamp="1589042289690" />
+    <state x="738" y="303" key="EnvironmentVariablesDialog" timestamp="1589038359453">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="738" y="303" key="EnvironmentVariablesDialog/71.24.1849.1056@71.24.1849.1056" timestamp="1589038359453" />
+    <state x="783" y="297" key="FileChooserDialogImpl" timestamp="1589042313849">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="783" y="297" key="FileChooserDialogImpl/71.24.1849.1056@71.24.1849.1056" timestamp="1589042313849" />
+    <state width="1826" height="296" key="GridCell.Tab.0.bottom" timestamp="1589042315046">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state width="1826" height="296" key="GridCell.Tab.0.bottom/71.24.1849.1056@71.24.1849.1056" timestamp="1589042315046" />
+    <state width="1826" height="296" key="GridCell.Tab.0.center" timestamp="1589042315044">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state width="1826" height="296" key="GridCell.Tab.0.center/71.24.1849.1056@71.24.1849.1056" timestamp="1589042315044" />
+    <state width="1826" height="296" key="GridCell.Tab.0.left" timestamp="1589042315043">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state width="1826" height="296" key="GridCell.Tab.0.left/71.24.1849.1056@71.24.1849.1056" timestamp="1589042315043" />
+    <state width="1826" height="296" key="GridCell.Tab.0.right" timestamp="1589042315045">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state width="1826" height="296" key="GridCell.Tab.0.right/71.24.1849.1056@71.24.1849.1056" timestamp="1589042315045" />
+    <state x="595" y="275" key="Vcs.Push.Dialog.v2" timestamp="1589042305004">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="595" y="275" key="Vcs.Push.Dialog.v2/71.24.1849.1056@71.24.1849.1056" timestamp="1589042305004" />
+  </component>
+</project>
