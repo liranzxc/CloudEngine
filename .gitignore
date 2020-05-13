@@ -1,5 +1,6 @@
 /customerService/.idea/
 ./.idea/
 ./customerService/customer-app/node_modules/*
-./song-exercise/node_modules/*
+*/node_modules/*
 */.idea
+*/workspace.xml
