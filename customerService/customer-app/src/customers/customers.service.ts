@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { NameModel } from "../models/customer.model";
-import { getRepository, LessThan} from "typeorm";
+import { getRepository, LessThan, LessThanOrEqual} from "typeorm";
 import { CustomerEntity } from "../entities/customer.entity";
 import { CountriesService } from "../countries/countries.service";
 import { CountryEntity } from "../entities/country.entity";
@@ -34,11 +34,11 @@ export class CustomersService {
 
         if (keys.includes("byAgeGreaterThan")) {
             let dateNow = new Date();
-            let newYear: number = dateNow.getFullYear() - Number(filter["byAgeGreaterThan"]);
+            let newYear: number = dateNow.getFullYear() - Number(filter["byAgeGreaterThan"]) - 1;
             dateNow.setFullYear(newYear);
             dateNow = date.format(dateNow, "YYYY-MM-DD");
             dateNow = date.parse(dateNow, "YYYY-MM-DD");
-            query = { ...query, ...{ "birthdate": LessThan(dateNow) } };
+            query = { ...query, ...{ "birthdate": LessThanOrEqual(dateNow) } };
         }
 
         let customers: CustomerEntity[] = await getRepository(CustomerEntity).find({
