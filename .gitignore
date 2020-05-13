@@ -1,2 +1,6 @@
 /customerService/.idea/
 ./.idea/
+./customerService/customer-app/node_modules/*
+*/node_modules/*
+*/.idea
+*/workspace.xml
