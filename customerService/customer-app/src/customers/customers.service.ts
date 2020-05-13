@@ -44,7 +44,7 @@ export class CustomersService {
         let customers: CustomerEntity[] = await getRepository(CustomerEntity).find({
             skip: query.page * query.size, take: query.size, where: {
                 ...query
-            }, relations: ["country"]
+            }, relations: ["country"], order: {birthdate : "ASC"}
         });
         customers.forEach(c => c.birthdate = date.parse(c.birthdate, "YYYY-MM-DD"));
         return customers;
