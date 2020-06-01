@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6acac000-4fb6-4047-bab4-f784a49a2e74" name="Default Changelist" comment="liran">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="6acac000-4fb6-4047-bab4-f784a49a2e74" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/.eslintrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/.prettierrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/nest-cli.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/app.controller.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/app.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/app.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/app.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/models/playlist.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/models/song.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/playlist/playlist.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/playlist/playlist.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/playlist/playlist.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/test/app.e2e-spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/test/jest-e2e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/tsconfig.build.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -10,13 +30,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Roni" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/reactivateSongs/reactive-songs-app" />
     <option name="RESET_MODE" value="HARD" />
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
@@ -28,6 +55,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1bg8Ktvb3liHfb9ftyfO2UFpSF9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -35,8 +63,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TF_FMT" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/playlist" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -51,14 +80,21 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/targil1/demos/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/playlist" />
+      <recent name="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/models" />
+      <recent name="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/songs" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src/playlist" />
+      <recent name="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/src" />
       <recent name="$PROJECT_DIR$/customerService/customer-app" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/customerService/customer-app/package.json" />
+      <package-json value="$PROJECT_DIR$/reactivateSongs/reactive-songs-app/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
@@ -91,7 +127,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6074103d-de33-469a-8106-8b5e465823ea" name="Default Changelist" comment="" />
+      <changelist id="6acac000-4fb6-4047-bab4-f784a49a2e74" name="Default Changelist" comment="" />
       <created>1589042315232</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -103,6 +139,9 @@
       <workItem from="1589043373079" duration="7253000" />
       <workItem from="1589091089141" duration="12000" />
       <workItem from="1589355297667" duration="2169000" />
+      <workItem from="1589440574609" duration="103000" />
+      <workItem from="1591019314403" duration="350000" />
+      <workItem from="1591019674076" duration="3753000" />
     </task>
     <task id="LOCAL-00001" summary="liran">
       <created>1589042337993</created>
@@ -188,7 +227,21 @@
       <option name="project" value="LOCAL" />
       <updated>1589050346913</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="liran">
+      <created>1589358834321</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1589358834321</updated>
+    </task>
+    <task id="LOCAL-00014" summary="liran">
+      <created>1589358969123</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1589358969123</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,14 +294,18 @@
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
     <state x="595" y="201" key="#ESLint/71.24.1849.1056@71.24.1849.1056" timestamp="1589043855815" />
-    <state x="460" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589050423200">
+    <state x="460" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591022985019">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state x="460" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/71.24.1849.1056@71.24.1849.1056" timestamp="1589050423200" />
-    <state x="503" y="134" width="865" height="809" key="CommitChangelistDialog2" timestamp="1589358834237">
+    <state x="460" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/71.24.1849.1056@71.24.1849.1056" timestamp="1591022985019" />
+    <state x="808" y="258" key="#com.intellij.ide.util.MemberChooser" timestamp="1591021743277">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state x="503" y="134" width="865" height="809" key="CommitChangelistDialog2/71.24.1849.1056@71.24.1849.1056" timestamp="1589358834237" />
+    <state x="808" y="258" key="#com.intellij.ide.util.MemberChooser/71.24.1849.1056@71.24.1849.1056" timestamp="1591021743277" />
+    <state x="503" y="134" width="865" height="809" key="CommitChangelistDialog2" timestamp="1591023488275">
+      <screen x="71" y="24" width="1849" height="1056" />
+    </state>
+    <state x="503" y="134" width="865" height="809" key="CommitChangelistDialog2/71.24.1849.1056@71.24.1849.1056" timestamp="1591023488275" />
     <state x="170" y="96" width="1651" height="885" key="DiffContextDialog" timestamp="1589043596880">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
@@ -257,22 +314,22 @@
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
     <state x="783" y="297" key="FileChooserDialogImpl/71.24.1849.1056@71.24.1849.1056" timestamp="1589042933687" />
-    <state width="1826" height="296" key="GridCell.Tab.0.bottom" timestamp="1589357626342">
+    <state width="1826" height="296" key="GridCell.Tab.0.bottom" timestamp="1591023216885">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state width="1826" height="296" key="GridCell.Tab.0.bottom/71.24.1849.1056@71.24.1849.1056" timestamp="1589357626342" />
-    <state width="1826" height="296" key="GridCell.Tab.0.center" timestamp="1589357626342">
+    <state width="1826" height="296" key="GridCell.Tab.0.bottom/71.24.1849.1056@71.24.1849.1056" timestamp="1591023216885" />
+    <state width="1826" height="296" key="GridCell.Tab.0.center" timestamp="1591023216885">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state width="1826" height="296" key="GridCell.Tab.0.center/71.24.1849.1056@71.24.1849.1056" timestamp="1589357626342" />
-    <state width="1826" height="296" key="GridCell.Tab.0.left" timestamp="1589357626341">
+    <state width="1826" height="296" key="GridCell.Tab.0.center/71.24.1849.1056@71.24.1849.1056" timestamp="1591023216885" />
+    <state width="1826" height="296" key="GridCell.Tab.0.left" timestamp="1591023216884">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state width="1826" height="296" key="GridCell.Tab.0.left/71.24.1849.1056@71.24.1849.1056" timestamp="1589357626341" />
-    <state width="1826" height="296" key="GridCell.Tab.0.right" timestamp="1589357626342">
+    <state width="1826" height="296" key="GridCell.Tab.0.left/71.24.1849.1056@71.24.1849.1056" timestamp="1591023216884" />
+    <state width="1826" height="296" key="GridCell.Tab.0.right" timestamp="1591023216885">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state width="1826" height="296" key="GridCell.Tab.0.right/71.24.1849.1056@71.24.1849.1056" timestamp="1589357626342" />
+    <state width="1826" height="296" key="GridCell.Tab.0.right/71.24.1849.1056@71.24.1849.1056" timestamp="1591023216885" />
     <state x="256" y="102" key="MergeDialog" timestamp="1589358327028">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
@@ -281,10 +338,10 @@
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
     <state x="705" y="257" key="MultipleFileMergeDialog/71.24.1849.1056@71.24.1849.1056" timestamp="1589358887493" />
-    <state x="595" y="275" key="Vcs.Push.Dialog.v2" timestamp="1589358835379">
+    <state x="595" y="275" key="Vcs.Push.Dialog.v2" timestamp="1591023502688">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state x="595" y="275" key="Vcs.Push.Dialog.v2/71.24.1849.1056@71.24.1849.1056" timestamp="1589358835379" />
+    <state x="595" y="275" key="Vcs.Push.Dialog.v2/71.24.1849.1056@71.24.1849.1056" timestamp="1591023502688" />
     <state x="918" y="276" key="VcsDiffUtil.ChangesDialog" timestamp="1589042592162">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
@@ -293,10 +350,10 @@
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
     <state x="170" y="96" width="1651" height="885" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/71.24.1849.1056@71.24.1849.1056" timestamp="1589358504810" />
-    <state x="768" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1589358919481">
+    <state x="768" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591023458741">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
-    <state x="768" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/71.24.1849.1056@71.24.1849.1056" timestamp="1589358919481" />
+    <state x="768" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/71.24.1849.1056@71.24.1849.1056" timestamp="1591023458741" />
     <state x="643" y="274" width="704" height="528" key="find.popup" timestamp="1589357644654">
       <screen x="71" y="24" width="1849" height="1056" />
     </state>
