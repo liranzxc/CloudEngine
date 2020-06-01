@@ -16,6 +16,21 @@ public class ListBoundary {
 	public ListBoundary() {
 		super();
 	}
+	
+	public ListBoundary(String id, String name, String userEmail, Date createdTimestamp) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.userEmail = userEmail;
+		this.createdTimestamp = createdTimestamp;
+	}
+	public ListBoundary(ListEntity entity) {
+		super();
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.userEmail = entity.getUserEmail();
+		this.createdTimestamp = createdTimestamp;
+	}
 	public String getId() {
 		return id;
 	}
@@ -40,12 +55,14 @@ public class ListBoundary {
 	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
-	public ListBoundary(String id, String name, String userEmail, Date createdTimestamp) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.userEmail = userEmail;
-		this.createdTimestamp = createdTimestamp;
+
+	public ListEntity toEntity() {
+		ListEntity ent = new ListEntity();
+		ent.setId(id);
+		ent.setName(name);
+		ent.setUserEmail(userEmail);
+		ent.setCreatedTimestamp(createdTimestamp);
+		return ent;
 	}
 	
 }

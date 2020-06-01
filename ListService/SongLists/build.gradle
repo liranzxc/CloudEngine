@@ -5,16 +5,26 @@ plugins {
 }
 
 group = 'com.example'
-version = '1.0'
+version = '0.1'
 sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+		maven {
+        url 'https://oss.jfrog.org/artifactory/oss-snapshot-local/'
+    }
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	
+		// swagger 3.0 BETA dependencies
+    implementation 'io.springfox:springfox-swagger2:3.0.0-SNAPSHOT'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0-SNAPSHOT'
+    implementation 'io.springfox:springfox-spring-webflux:3.0.0-SNAPSHOT'
+	// swagger 3.0 BETA dependencies
+	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

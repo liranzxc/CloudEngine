@@ -16,24 +16,31 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class ListEntity {
 	@Id
 	private String id;
-	@Field("email")
-	private Email userEmail;
+	
+	 @Email(message="invalid e-mail")
+	private String userEmail;
+	 
 	private String name;
+	
 	@CreatedDate
 	private Date createdTimestamp;
+	
 	 @DBRef(db="address")
 	private Set<Song> Songs;
 	
+	 private boolean deleted;
+	 
 	public ListEntity() {
 		super();
 	}
 
-	public ListEntity(String id, Email userEmail, String name, Date createdTimestamp, Set<Song> Songs) {
+	public ListEntity(String id, String userEmail, String name, Date createdTimestamp, Set<Song> Songs) {
 		super();
 		this.id = id;
 		this.userEmail = userEmail;
 		this.name = name;
 		this.createdTimestamp = createdTimestamp;
+		this.deleted = false;
 		this.Songs = new HashSet<>();
 	}
 
@@ -45,11 +52,11 @@ public class ListEntity {
 		this.id = id;
 	}
 
-	public Email getUserEmail() {
+	public String getUserEmail() {
 		return userEmail;
 	}
 
-	public void setUserEmail(Email userEmail) {
+	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
 
@@ -75,6 +82,14 @@ public class ListEntity {
 
 	public void setSongs(Set<Song> songs) {
 		Songs = songs;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	
