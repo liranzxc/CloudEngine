@@ -11,6 +11,12 @@ public class Song {
 	public Song() {
 		super();
 	}
+	
+	public Song(SongEntity song) {
+		super();
+		this.songId = song.getSongId();
+	}
+	
 	public Song(String songId) {
 		super();
 		this.songId = songId;

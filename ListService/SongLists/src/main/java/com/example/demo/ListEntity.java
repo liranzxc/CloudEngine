@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -90,6 +91,10 @@ public class ListEntity {
 	
 	public void removeSongById(String songId) {
 		this.Songs.removeIf(s -> s.getSongId().equals(songId));
+	}
+	
+	public boolean containsSongWithId(String songId) {
+		return this.Songs.stream().anyMatch(s->  s.getSongId().equals(songId));
 	}
 	
 }

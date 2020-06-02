@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -65,8 +66,6 @@ public class ListServiceDB implements ListService {
 			else
 				return Mono.empty();
 		}).flatMap(l->Mono.empty());
-		
-		
 	}
 
 	@Override
@@ -96,27 +95,105 @@ public class ListServiceDB implements ListService {
 	}
 
 	@Override
-	public Flux<SongEntity> getSongsFromList(String listId, boolean asc, String sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+	public Flux<SongEntity> getSongsFromList(String listId, String asc, String sortBy) {
+		Mono<ListEntity> list = this.lists.findById(listId).filter(songList-> songList.getDeleted() == false);
+		return list.flux().flatMap(songList->{
+			return Flux.fromStream(songList.getSongs().stream());
+		}).sort(new Comparator<SongEntity>() {
+			@Override
+			public int compare(SongEntity o1, SongEntity o2) {
+				int val = asc.equals(ASC)?1:-1;
+				switch (sortBy) {
+				
+				
+				
+					default:
+					case "songId": {						
+						return val * o1.getSongId().compareTo(o2.getSongId());
+					}
+				}
+			}
+		});
 	}
 
 	@Override
-	public Flux<ListEntity> getLists(boolean asc, String sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+	public Flux<ListEntity> getLists(String asc, String sortBy) {
+		return this.lists.findAll().filter(list-> list.getDeleted()== false).sort(new Comparator<ListEntity>() {
+
+			@Override
+			public int compare(ListEntity o1, ListEntity o2) {
+				int val = asc.equals(ASC)?1:-1;
+				switch (sortBy) {
+					case "createdTimestamp ": {						
+						return val * o1.getCreatedTimestamp().compareTo(o2.getCreatedTimestamp());
+					}
+					case "userEmail ": {						
+						return val * o1.getUserEmail().compareTo(o2.getUserEmail());
+					}
+					case "name": {						
+						return val * o1.getName().compareTo(o2.getName());
+					}
+					default:
+					case "id": {						
+						return val * o1.getId().compareTo(o2.getId());
+					}
+				}
+			}
+		});
 	}
 
 	@Override
-	public Flux<ListEntity> getListsByUserEmail(String userEmail, boolean asc, String sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+	public Flux<ListEntity> getListsByUserEmail(String userEmail, String asc, String sortBy) {
+		return this.lists.findAll().filter(list-> list.getDeleted()== false).filter(list-> list.getUserEmail().equals(userEmail)).sort(new Comparator<ListEntity>() {
+
+			@Override
+			public int compare(ListEntity o1, ListEntity o2) {
+				int val = asc.equals(ASC)?1:-1;
+				switch (sortBy) {
+					case "createdTimestamp ": {						
+						return val * o1.getCreatedTimestamp().compareTo(o2.getCreatedTimestamp());
+					}
+					case "userEmail ": {						
+						return val * o1.getUserEmail().compareTo(o2.getUserEmail());
+					}
+					case "name": {						
+						return val * o1.getName().compareTo(o2.getName());
+					}
+					default:
+					case "id": {						
+						return val * o1.getId().compareTo(o2.getId());
+					}
+				}
+			}
+		});
 	}
 
 	@Override
-	public Flux<ListEntity> getListsBySongId(String songId, boolean asc, String sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+	public Flux<ListEntity> getListsBySongId(String songId, String asc, String sortBy) {
+		return this.lists.findAll().filter(list-> list.getDeleted()== false)
+				.filter(list-> list.containsSongWithId(songId))
+				.sort(new Comparator<ListEntity>() {
+
+			@Override
+			public int compare(ListEntity o1, ListEntity o2) {
+				int val = asc.equals(ASC)?1:-1;
+				switch (sortBy) {
+					case "createdTimestamp ": {						
+						return val * o1.getCreatedTimestamp().compareTo(o2.getCreatedTimestamp());
+					}
+					case "userEmail ": {						
+						return val * o1.getUserEmail().compareTo(o2.getUserEmail());
+					}
+					case "name": {						
+						return val * o1.getName().compareTo(o2.getName());
+					}
+					default:
+					case "id": {						
+						return val * o1.getId().compareTo(o2.getId());
+					}
+				}
+			}
+		});
 	}
 
 	@Override

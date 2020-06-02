@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -91,6 +93,45 @@ public class ListController {
 		
 			return listService.deleteListById(listId);
 		}
+	
+	@RequestMapping(path="/lists/{listId}/songs",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public Flux<Song> getSongsFromList(@PathVariable("listId") String listId,
+			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
+			@RequestParam(name = "sortAttr", required = false, defaultValue = "songId") String sortBy) {
+		return this.listService.getSongsFromList(listId, asc, sortBy).map(Song::new);
+	}
+	
+	@RequestMapping(path="/lists",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public Flux<ListBoundary> getLists(
+			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
+			@RequestParam(name = "sortAttr", required = false, defaultValue = "id") String sortBy) {
+		return this.listService
+			.getLists(asc, sortBy).map(ListBoundary::new);
+	}
+	
+	@RequestMapping(path="/lists/byUser/{userEmail}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public Flux<ListBoundary> getListsByEmail(@PathVariable("userEmail") String userEmail,
+			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
+			@RequestParam(name = "sortAttr", required = false, defaultValue = "id") String sortBy) {
+		return this.listService
+			.getListsByUserEmail(userEmail, asc, sortBy).map(ListBoundary::new);
+	}
+	
+	@RequestMapping(path="/lists/bySongId/{songId}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public Flux<ListBoundary> getListsBySongId(@PathVariable("songId") String songId,
+			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
+			@RequestParam(name = "sortAttr", required = false, defaultValue = "id") String sortBy) {
+		return this.listService
+			.getListsBySongId(songId, asc, sortBy).map(ListBoundary::new);
+	}
 	
 	
 	
