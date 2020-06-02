@@ -1,35 +1,47 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
-import javax.validation.constraints.Email;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 
 public class ListBoundary {
 	private String id;
+
 	private String name;
+
 	private String userEmail;
 	private Date createdTimestamp;
+	@JsonIgnore
+	private Boolean deleted;
 	
-	public ListBoundary() {
-		super();
+	
+	public ListEntity toEntity() {
+		return new ListEntity(id,userEmail,name,createdTimestamp, new ArrayList<>(),deleted);
 	}
 	
-	public ListBoundary(String id, String name, String userEmail, Date createdTimestamp) {
+	public ListBoundary(ListEntity listEntity) {
+		super();
+		this.id = listEntity.getId();
+		this.name = listEntity.getName();
+		this.userEmail = listEntity.getUserEmail();
+		this.createdTimestamp = listEntity.getCreatedTimestamp();
+		this.deleted = listEntity.getDeleted();
+	}
+	public ListBoundary(String id, String name, String userEmail, Date createdTimestamp, Boolean deleted) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.userEmail = userEmail;
 		this.createdTimestamp = createdTimestamp;
+		this.deleted = deleted;
 	}
-	public ListBoundary(ListEntity entity) {
+	
+	public ListBoundary() {
 		super();
-		this.id = entity.getId();
-		this.name = entity.getName();
-		this.userEmail = entity.getUserEmail();
-		this.createdTimestamp = createdTimestamp;
 	}
 	public String getId() {
 		return id;
@@ -56,13 +68,16 @@ public class ListBoundary {
 		this.createdTimestamp = createdTimestamp;
 	}
 
-	public ListEntity toEntity() {
-		ListEntity ent = new ListEntity();
-		ent.setId(id);
-		ent.setName(name);
-		ent.setUserEmail(userEmail);
-		ent.setCreatedTimestamp(createdTimestamp);
-		return ent;
+	@JsonIgnore
+	public Boolean getDeleted() {
+		return deleted;
 	}
+
+	@JsonIgnore
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+	
+
 	
 }

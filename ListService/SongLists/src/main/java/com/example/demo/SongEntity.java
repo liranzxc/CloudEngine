@@ -1,10 +1,12 @@
 package com.example.demo;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "SONGS")
 public class SongEntity {
 	
+	@Id
 	private String songId;
 	
 	public SongEntity() {

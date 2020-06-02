@@ -21,5 +21,9 @@ public class Song {
 	public void setSongId(String songId) {
 		this.songId = songId;
 	}
+	
+	public SongEntity toEntity() {
+		return new SongEntity(songId);
+	}
 
 }

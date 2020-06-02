@@ -1,47 +1,39 @@
 package com.example.demo;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.validation.constraints.Email;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "LISTS")
 public class ListEntity {
 	@Id
 	private String id;
-	
-	 @Email(message="invalid e-mail")
 	private String userEmail;
-	 
 	private String name;
-	
 	@CreatedDate
 	private Date createdTimestamp;
-	
-	 @DBRef(db="address")
-	private Set<Song> Songs;
-	
-	 private boolean deleted;
-	 
+	@DBRef(db="Cluster0")
+	private List<SongEntity> Songs;
+	private Boolean deleted; 
+//	public static enum fields {ID("id"),USEREMAIL("userEmail"),NAME("name"),CREATEDTIMESTAMP("createdTimestamp")}
+	public static enum fields {id,userEmail,name,createdTimestamp,deleted,Songs}
+
 	public ListEntity() {
 		super();
 	}
 
-	public ListEntity(String id, String userEmail, String name, Date createdTimestamp, Set<Song> Songs) {
+	public ListEntity(String id, String userEmail, String name, Date createdTimestamp, List<SongEntity> songs, Boolean deleted) {
 		super();
 		this.id = id;
 		this.userEmail = userEmail;
 		this.name = name;
 		this.createdTimestamp = createdTimestamp;
-		this.deleted = false;
-		this.Songs = new HashSet<>();
+		this.Songs = songs;
+		this.deleted = deleted;
 	}
 
 	public String getId() {
@@ -76,21 +68,28 @@ public class ListEntity {
 		this.createdTimestamp = createdTimestamp;
 	}
 
-	public Set<Song> getSongs() {
+	public List<SongEntity> getSongs() {
 		return Songs;
 	}
 
-	public void setSongs(Set<Song> songs) {
+	public void setSongs(List<SongEntity> songs) {
 		Songs = songs;
 	}
 
-	public boolean isDeleted() {
+	public Boolean getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(boolean deleted) {
+	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-
+	
+	public void addNewSong(SongEntity songEntity) {
+		this.Songs.add(songEntity);
+	}
+	
+	public void removeSongById(String songId) {
+		this.Songs.removeIf(s -> s.getSongId().equals(songId));
+	}
 	
 }
