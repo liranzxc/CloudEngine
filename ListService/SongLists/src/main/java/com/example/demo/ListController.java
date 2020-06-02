@@ -21,7 +21,8 @@ import reactor.core.publisher.Mono;
 
 @RestController
 public class ListController {
-	
+	public static final String SORT_ATTR = "sortAttr";
+	public static final String ORDER_ATTR = "orderAttr";
 	private ListService listService;
 	
 	@Autowired
@@ -64,7 +65,7 @@ public class ListController {
 			method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 		public Mono<Void> addSongToList(@PathVariable("listId") String listId, @RequestBody Song song) {
-		
+			System.err.println("adding new song");
 			return listService.addNewSongToList(listId, song.toEntity());
 			
 		}
@@ -96,49 +97,45 @@ public class ListController {
 	
 	@RequestMapping(path="/lists/{listId}/songs",
 			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<Song> getSongsFromList(@PathVariable("listId") String listId,
-			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
-			@RequestParam(name = "sortAttr", required = false, defaultValue = "songId") String sortBy) {
+			@RequestParam(name = ORDER_ATTR, required = false, defaultValue = ListService.ASC) String asc, 
+			@RequestParam(name = SORT_ATTR, required = false, defaultValue = SongEntity.ID_Field) String sortBy) {
 		return this.listService.getSongsFromList(listId, asc, sortBy).map(Song::new);
 	}
 	
 	@RequestMapping(path="/lists",
 			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<ListBoundary> getLists(
-			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
-			@RequestParam(name = "sortAttr", required = false, defaultValue = "id") String sortBy) {
+			@RequestParam(name = ORDER_ATTR, required = false, defaultValue = ListService.ASC) String asc, 
+			@RequestParam(name = SORT_ATTR, required = false, defaultValue = ListEntity.ID_FIELD) String sortBy) {
 		return this.listService
 			.getLists(asc, sortBy).map(ListBoundary::new);
 	}
 	
 	@RequestMapping(path="/lists/byUser/{userEmail}",
 			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<ListBoundary> getListsByEmail(@PathVariable("userEmail") String userEmail,
-			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
-			@RequestParam(name = "sortAttr", required = false, defaultValue = "id") String sortBy) {
+			@RequestParam(name = ORDER_ATTR, required = false, defaultValue = ListService.ASC) String asc, 
+			@RequestParam(name = SORT_ATTR, required = false, defaultValue = ListEntity.ID_FIELD) String sortBy) {
 		return this.listService
 			.getListsByUserEmail(userEmail, asc, sortBy).map(ListBoundary::new);
 	}
 	
 	@RequestMapping(path="/lists/bySongId/{songId}",
 			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<ListBoundary> getListsBySongId(@PathVariable("songId") String songId,
-			@RequestParam(name = "orderAttr", required = false, defaultValue = "ASC") String asc, 
-			@RequestParam(name = "sortAttr", required = false, defaultValue = "id") String sortBy) {
+			@RequestParam(name = ORDER_ATTR, required = false, defaultValue = ListService.ASC) String asc, 
+			@RequestParam(name = SORT_ATTR, required = false, defaultValue = ListEntity.ID_FIELD) String sortBy) {
 		return this.listService
 			.getListsBySongId(songId, asc, sortBy).map(ListBoundary::new);
 	}
 	
-	
-	
 	@ExceptionHandler
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public Map<String, Object> handleException(HttpClientErrorException e){
-		return Collections
-				.singletonMap("error", (e.getMessage() != null)?e.getMessage():"Dummy not found");
+	public Mono<HttpClientErrorException> handleException(Exception e) {
+		return Mono.error(e);
 	}
 }

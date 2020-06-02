@@ -18,15 +18,21 @@ public class ListEntity {
 	private Date createdTimestamp;
 //	@DBRef
 	private List<SongEntity> Songs;
-	private Boolean deleted; 
+	private Boolean deleted;
 
-	public static enum fields {id,userEmail,name,createdTimestamp,deleted,Songs}
+	public static final String ID_FIELD = "id";
+	public static final String EMAIL_FIELD = "userEmail";
+	public static final String NAME_FIELD = "name";
+	public static final String TIMESTAMP_FIELD = "createdTimestamp";
+	public static final String DELETE_FIELD = "deleted";
+	public static final String SONGS_FIELD = "Songs";
 
 	public ListEntity() {
 		super();
 	}
 
-	public ListEntity(String id, String userEmail, String name, Date createdTimestamp, List<SongEntity> songs, Boolean deleted) {
+	public ListEntity(String id, String userEmail, String name, Date createdTimestamp, List<SongEntity> songs,
+			Boolean deleted) {
 		super();
 		this.id = id;
 		this.userEmail = userEmail;
@@ -83,24 +89,23 @@ public class ListEntity {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-	
+
 	public void addNewSong(SongEntity songEntity) {
 		this.Songs.add(songEntity);
 	}
-	
+
 	public void removeSongById(String songId) {
 		this.Songs.removeIf(s -> s.getSongId().equals(songId));
 	}
-	
+
 	public boolean containsSongWithId(String songId) {
 		System.err.println("check1");
-		if (this.Songs == null || this.Songs.isEmpty())
-		{
+		if (this.Songs == null || this.Songs.isEmpty()) {
 			return false;
 		}
 		System.err.println("check2");
 		System.err.println(this.Songs);
-		return this.Songs.stream().anyMatch(s->  s!=null?s.getSongId().equals(songId):false);
+		return this.Songs.stream().anyMatch(s -> s != null ? s.getSongId().equals(songId) : false);
 	}
-	
+
 }
