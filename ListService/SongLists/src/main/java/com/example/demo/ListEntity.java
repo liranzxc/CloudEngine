@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -17,10 +16,10 @@ public class ListEntity {
 	private String name;
 	@CreatedDate
 	private Date createdTimestamp;
-	@DBRef(db="Cluster0")
+//	@DBRef
 	private List<SongEntity> Songs;
 	private Boolean deleted; 
-//	public static enum fields {ID("id"),USEREMAIL("userEmail"),NAME("name"),CREATEDTIMESTAMP("createdTimestamp")}
+
 	public static enum fields {id,userEmail,name,createdTimestamp,deleted,Songs}
 
 	public ListEntity() {
@@ -94,7 +93,14 @@ public class ListEntity {
 	}
 	
 	public boolean containsSongWithId(String songId) {
-		return this.Songs.stream().anyMatch(s->  s.getSongId().equals(songId));
+		System.err.println("check1");
+		if (this.Songs == null || this.Songs.isEmpty())
+		{
+			return false;
+		}
+		System.err.println("check2");
+		System.err.println(this.Songs);
+		return this.Songs.stream().anyMatch(s->  s!=null?s.getSongId().equals(songId):false);
 	}
 	
 }

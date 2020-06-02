@@ -1,6 +1,8 @@
 package com.example.demo;
 
+
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -17,17 +19,20 @@ import reactor.core.publisher.Mono;
 public class ListServiceDB implements ListService {
 
 	private ListDao lists;
+	private SongDao songs;
 	
 	@Autowired
-	public ListServiceDB(ListDao lists) {
+	public ListServiceDB(ListDao lists, SongDao songs) {
 		super();
 		this.lists = lists;
+		this.songs = songs;
 	}
 	
 	@Override
 	public Mono<ListEntity> storeNewList(ListEntity list) {
 		list.setId(null);
 		list.setDeleted(false);
+		list.setCreatedTimestamp(new Date());
 		emailValidator(list.getUserEmail());
 		nameValidator(list.getName());
 		return this.lists.save(list);
@@ -73,7 +78,10 @@ public class ListServiceDB implements ListService {
 		return this.lists.findById(listId).flatMap(list -> {
 			if(list.getDeleted() == false) {
 				if(list.getSongs() != null)
+				{
 					list.addNewSong(song);
+					this.songs.save(song);
+				}	
 				return this.lists.save(list);
 			}
 			else
@@ -96,24 +104,30 @@ public class ListServiceDB implements ListService {
 
 	@Override
 	public Flux<SongEntity> getSongsFromList(String listId, String asc, String sortBy) {
-		Mono<ListEntity> list = this.lists.findById(listId).filter(songList-> songList.getDeleted() == false);
-		return list.flux().flatMap(songList->{
-			return Flux.fromStream(songList.getSongs().stream());
-		}).sort(new Comparator<SongEntity>() {
-			@Override
-			public int compare(SongEntity o1, SongEntity o2) {
-				int val = asc.equals(ASC)?1:-1;
-				switch (sortBy) {
-				
-				
-				
-					default:
-					case "songId": {						
-						return val * o1.getSongId().compareTo(o2.getSongId());
-					}
-				}
-			}
-		});
+		return this.lists.findById(listId)
+				.filter(songList-> songList.getDeleted() == false)
+				.flatMapMany(songList->{
+					if(songList == null)
+						return Flux.empty();
+					return Flux.fromIterable(songList.getSongs())
+							.sort(new Comparator<SongEntity>() {
+								@Override
+								public int compare(SongEntity o1, SongEntity o2) {
+									int val = asc.equals(ASC)?1:-1;
+									switch (sortBy) {
+									
+									
+									
+										default:
+										case "songId": {						
+											return val * o1.getSongId().compareTo(o2.getSongId());
+										}
+									}
+								}
+							}
+									);
+							}
+				);
 	}
 
 	@Override
@@ -170,9 +184,11 @@ public class ListServiceDB implements ListService {
 
 	@Override
 	public Flux<ListEntity> getListsBySongId(String songId, String asc, String sortBy) {
-		return this.lists.findAll().filter(list-> list.getDeleted()== false)
-				.filter(list-> list.containsSongWithId(songId))
-				.sort(new Comparator<ListEntity>() {
+		Flux<ListEntity> test =  this.lists.findAll().filter(list-> list.getDeleted()== false);
+		System.err.println("check3");
+		test = test.filter(list-> list.containsSongWithId(songId));
+		System.err.println("check4");
+		return	test.sort(new Comparator<ListEntity>() {
 
 			@Override
 			public int compare(ListEntity o1, ListEntity o2) {
