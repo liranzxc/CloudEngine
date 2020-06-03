@@ -8,6 +8,8 @@ public class SongEntity {
 
 	@Id
 	private String songId;
+	
+	private String playlistId;
 
 	public static final String ID_Field = "songId";
 
@@ -26,6 +28,14 @@ public class SongEntity {
 
 	public void setSongId(String songId) {
 		this.songId = songId;
+	}
+
+	public String getPlaylistId() {
+		return playlistId;
+	}
+
+	public void setPlaylistId(String playlistId) {
+		this.playlistId = playlistId;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,8 +33,14 @@ public class ListServiceDB implements ListService {
 		list.setId(null);
 		list.setDeleted(false);
 		list.setCreatedTimestamp(new Date());
-		emailValidator(list.getUserEmail());
-		nameValidator(list.getName());
+		list.setSongsIds(new HashSet<String>());
+		try {
+			emailValidator(list.getUserEmail());
+			nameValidator(list.getName());
+		}
+		catch(Exception e){
+			throw Exceptions.propagate(e); 
+		}
 		return this.lists.save(list);
 	}
 
@@ -65,21 +73,26 @@ public class ListServiceDB implements ListService {
 				return this.lists.save(oldList);
 			else
 				return Mono.empty();
-		}).flatMap(l -> Mono.empty());
+		}).onErrorResume(e -> Mono.error(new HttpClientErrorException(HttpStatus.BAD_REQUEST
+				, e.getMessage()))).flatMap(l -> Mono.empty());
 	}
 
 	@Override
 	public Mono<Void> addNewSongToList(String listId, SongEntity song) {
 		return this.lists.findByIdAndDeleted(listId, false).flatMap(list -> {
-			list.addNewSong(song);
-			this.songs.save(song);
-			return this.lists.save(list);
+			
+			song.setPlaylistId(listId);
+			return this.songs.save(song)
+			.doOnSuccess(songDB -> list.addNewSong(songDB.getSongId()))
+			.then( this.lists.save(list));
+			
 		}).flatMap(l -> Mono.empty());
 	}
 
 	@Override
 	public Mono<Void> deleteSongFromListById(String listId, String songId) {
 		return this.lists.findByIdAndDeleted(listId, false).flatMap(list -> {
+			
 			list.removeSongById(songId);
 			return this.lists.save(list);
 		}).flatMap(l -> Mono.empty());
@@ -88,7 +101,7 @@ public class ListServiceDB implements ListService {
 	@Override
 	public Flux<SongEntity> getSongsFromList(String listId, String asc, String sortBy) {
 		return this.lists.findByIdAndDeleted(listId, false).flatMapMany(songList -> {
-			return Flux.fromIterable(songList.getSongs()).sort(new Comparator<SongEntity>() {
+			return this.songs.findAllById(songList.getSongsIds()).sort(new Comparator<SongEntity>() {
 				@Override
 				public int compare(SongEntity o1, SongEntity o2) {
 					int val = asc.equals(DESC) ? -1 : 1;

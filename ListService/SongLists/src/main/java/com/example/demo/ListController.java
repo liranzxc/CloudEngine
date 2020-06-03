@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +30,17 @@ public class ListController {
 		this.listService = listService;
 	}
 	
+	
+
+
+
 	@RequestMapping(path="/lists",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<ListBoundary> addNewList(@RequestBody ListBoundary newList) {
 		return this.listService
-			.storeNewList(newList.toEntity())
-			.map(ListBoundary::new);
+			.storeNewList(newList.toEntity()).map(ListBoundary::new);
 	}
 	
 	@RequestMapping(path="/lists/{listId}",
@@ -134,8 +136,27 @@ public class ListController {
 			.getListsBySongId(songId, asc, sortBy).map(ListBoundary::new);
 	}
 	
-	@ExceptionHandler
-	public Mono<HttpClientErrorException> handleException(Exception e) {
+	public Mono<HttpClientErrorException> handleException(Exception  e) {
 		return Mono.error(e);
 	}
+	
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public Mono<HttpClientErrorException> handleException(InvalidEmailException e) {
+		return Mono.error(e);
+	}
+
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public Mono<HttpClientErrorException> handleException(InvalidNameException e) {
+		return Mono.error(e);
+	}
+
+//	@ExceptionHandler
+//	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+//	public Map<String, Object> handleException(BadDataException e) {
+//		return Collections.singletonMap("Error", (e.getMessage() != null) ? e.getMessage() : "Bad data");
+//	}
+	
 }

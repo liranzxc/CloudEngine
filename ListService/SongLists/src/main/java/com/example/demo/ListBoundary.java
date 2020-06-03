@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -16,7 +16,7 @@ public class ListBoundary {
 	private Boolean deleted;
 
 	public ListEntity toEntity() {
-		return new ListEntity(id, userEmail, name, createdTimestamp, new ArrayList<>(), deleted);
+		return new ListEntity(id, userEmail, name, createdTimestamp, new HashSet<>(), deleted);
 	}
 
 	public ListBoundary(ListEntity listEntity) {
