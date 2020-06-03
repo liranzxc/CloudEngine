@@ -38,11 +38,8 @@ public class ListServiceDB implements ListService {
 
 	@Override
 	public Mono<ListEntity> getListById(String listId) {
-		return this.lists.findById(listId).flatMap(list -> {
-			if (list.getDeleted() == true)
-				return Mono.empty();
-			else
-				return Mono.just(list);
+		return this.lists.findByIdAndDeleted(listId, false).flatMap(list -> {
+			return Mono.just(list);
 		});
 
 	}
@@ -61,8 +58,9 @@ public class ListServiceDB implements ListService {
 			}
 			if (updatedValues.containsKey(ListEntity.DELETE_FIELD) && updatedValues.keySet().size() == 1
 					|| updatedValues.keySet().size() == 0)
+			
 				oldList.setDeleted(false);
-
+			
 			if (oldList.getDeleted() == false)
 				return this.lists.save(oldList);
 			else
@@ -72,41 +70,29 @@ public class ListServiceDB implements ListService {
 
 	@Override
 	public Mono<Void> addNewSongToList(String listId, SongEntity song) {
-		return this.lists.findById(listId).flatMap(list -> {
-			if (list.getDeleted() == false) {
-				if (list.getSongs() != null) {
-					list.addNewSong(song);
-					this.songs.save(song);
-				}
-				return this.lists.save(list);
-			} else
-				return Mono.empty();
+		return this.lists.findByIdAndDeleted(listId, false).flatMap(list -> {
+			list.addNewSong(song);
+			this.songs.save(song);
+			return this.lists.save(list);
 		}).flatMap(l -> Mono.empty());
 	}
 
 	@Override
 	public Mono<Void> deleteSongFromListById(String listId, String songId) {
-		return this.lists.findById(listId).flatMap(list -> {
-			if (list.getDeleted() == false) {
-				if (list.getSongs() != null)
-					list.removeSongById(songId);
-				return this.lists.save(list);
-			} else
-				return Mono.empty();
+		return this.lists.findByIdAndDeleted(listId, false).flatMap(list -> {
+			list.removeSongById(songId);
+			return this.lists.save(list);
 		}).flatMap(l -> Mono.empty());
 	}
 
 	@Override
 	public Flux<SongEntity> getSongsFromList(String listId, String asc, String sortBy) {
-		return this.lists.findById(listId).filter(songList -> songList.getDeleted() == false).flatMapMany(songList -> {
-			if (songList == null)
-				return Flux.empty();
+		return this.lists.findByIdAndDeleted(listId, false).flatMapMany(songList -> {
 			return Flux.fromIterable(songList.getSongs()).sort(new Comparator<SongEntity>() {
 				@Override
 				public int compare(SongEntity o1, SongEntity o2) {
 					int val = asc.equals(DESC) ? -1 : 1;
 					switch (sortBy) {
-
 					default:
 					case SongEntity.ID_Field: {
 						return val * o1.getSongId().compareTo(o2.getSongId());
@@ -119,7 +105,7 @@ public class ListServiceDB implements ListService {
 
 	@Override
 	public Flux<ListEntity> getLists(String asc, String sortBy) {
-		return this.lists.findAll().filter(list -> list.getDeleted() == false).sort(new Comparator<ListEntity>() {
+		return this.lists.findByDeleted(false).sort(new Comparator<ListEntity>() {
 
 			@Override
 			public int compare(ListEntity o1, ListEntity o2) {
@@ -145,36 +131,7 @@ public class ListServiceDB implements ListService {
 
 	@Override
 	public Flux<ListEntity> getListsByUserEmail(String userEmail, String asc, String sortBy) {
-		return this.lists.findAll().filter(list -> list.getDeleted() == false)
-				.filter(list -> list.getUserEmail().equals(userEmail)).sort(new Comparator<ListEntity>() {
-
-					@Override
-					public int compare(ListEntity o1, ListEntity o2) {
-						int val = asc.equals(ASC) ? 1 : -1;
-						switch (sortBy) {
-						case "createdTimestamp ": {
-							return val * o1.getCreatedTimestamp().compareTo(o2.getCreatedTimestamp());
-						}
-						case "userEmail ": {
-							return val * o1.getUserEmail().compareTo(o2.getUserEmail());
-						}
-						case "name": {
-							return val * o1.getName().compareTo(o2.getName());
-						}
-						default:
-						case "id": {
-							return val * o1.getId().compareTo(o2.getId());
-						}
-						}
-					}
-				});
-	}
-
-	@Override
-	public Flux<ListEntity> getListsBySongId(String songId, String asc, String sortBy) {
-		Flux<ListEntity> test = this.lists.findAll().filter(list -> list.getDeleted() == false);
-		test = test.filter(list -> list.containsSongWithId(songId));
-		return test.sort(new Comparator<ListEntity>() {
+		return this.lists.findByDeletedAndUserEmail(false, userEmail).sort(new Comparator<ListEntity>() {
 
 			@Override
 			public int compare(ListEntity o1, ListEntity o2) {
@@ -191,6 +148,34 @@ public class ListServiceDB implements ListService {
 				}
 				default:
 				case "id": {
+					return val * o1.getId().compareTo(o2.getId());
+				}
+				}
+			}
+		});
+	}
+
+	@Override
+	public Flux<ListEntity> getListsBySongId(String songId, String asc, String sortBy) {
+		Flux<ListEntity> flux = this.lists.findByDeleted(false);
+		flux = flux.filter(list -> list.containsSongWithId(songId));
+		return flux.sort(new Comparator<ListEntity>() {
+
+			@Override
+			public int compare(ListEntity o1, ListEntity o2) {
+				int val = asc.equals(ASC) ? 1 : -1;
+				switch (sortBy) {
+				case ListEntity.TIMESTAMP_FIELD: {
+					return val * o1.getCreatedTimestamp().compareTo(o2.getCreatedTimestamp());
+				}
+				case ListEntity.EMAIL_FIELD: {
+					return val * o1.getUserEmail().compareTo(o2.getUserEmail());
+				}
+				case ListEntity.NAME_FIELD: {
+					return val * o1.getName().compareTo(o2.getName());
+				}
+				default:
+				case ListEntity.ID_FIELD: {
 					return val * o1.getId().compareTo(o2.getId());
 				}
 				}

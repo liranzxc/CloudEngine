@@ -29,27 +29,27 @@ public class ListServiceConsumer implements CommandLineRunner {
 
 		System.err.println("consumer initialized and requested GET /demoes");
 
-		// operation #1 - create many items of data
-		Flux.fromStream(IntStream.range(1, 6).mapToObj(i -> "test" + i))// Flux<String>
-				.flatMap(msg -> webClientPostList.post().accept(MediaType.APPLICATION_JSON)
-						.contentType(MediaType.APPLICATION_JSON)
-						.bodyValue(new ListBoundary(null, msg, msg + "@test.com", null, false)).retrieve()
-						.bodyToMono(ListBoundary.class))
-				.subscribe(postOutput -> {
-					Flux.fromStream(IntStream.range(1, 6).mapToObj(i -> "song" + i))
-							.flatMap(msg -> WebClient.create(url + "/lists/" + postOutput.getId() + "/songs").put()
-									.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-									.bodyValue(new Song(msg)).retrieve().bodyToMono(Map.class))
-							.doOnComplete(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									System.err.println("finished adding songs");
-								}
-							});
-				}, e -> e.printStackTrace(), () -> {
-				}, subscribable -> subscribable.request(1));
+//		// operation #1 - create many items of data
+//		Flux.fromStream(IntStream.range(1, 6).mapToObj(i -> "test" + i))// Flux<String>
+//				.flatMap(msg -> webClientPostList.post().accept(MediaType.APPLICATION_JSON)
+//						.contentType(MediaType.APPLICATION_JSON)
+//						.bodyValue(new ListBoundary(null, msg, msg + "@test.com", null, false)).retrieve()
+//						.bodyToMono(ListBoundary.class))
+//				.subscribe(postOutput -> {
+//					Flux.fromStream(IntStream.range(1, 6).mapToObj(i -> "song" + i))
+//							.flatMap(msg -> WebClient.create(url + "/lists/" + postOutput.getId() + "/songs").put()
+//									.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+//									.bodyValue(new Song(msg)).retrieve().bodyToMono(Map.class))
+//							.doOnComplete(new Runnable() {
+//
+//								@Override
+//								public void run() {
+//									// TODO Auto-generated method stub
+//									System.err.println("finished adding songs");
+//								}
+//							});
+//				}, e -> e.printStackTrace(), () -> {
+//				}, subscribable -> subscribable.request(1));
 
 	}
 
