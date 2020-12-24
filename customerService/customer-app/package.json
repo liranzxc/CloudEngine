@@ -29,7 +29,7 @@
     "@nestjs/typeorm": "^7.0.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
-    "date-and-time": "^0.13.1",
+    "date-and-time": "^0.14.2",
     "dotenv": "^8.2.0",
     "mysql": "^2.18.1",
     "pg": "^8.1.0",
